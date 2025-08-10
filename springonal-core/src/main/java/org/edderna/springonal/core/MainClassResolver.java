@@ -2,6 +2,7 @@ package org.edderna.springonal.core;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.lang.NonNull;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -17,26 +18,29 @@ final class MainClassResolver {
     static Optional<Class<?>> findMainClass(BeanDefinitionRegistry registry) {
         return Arrays.stream(registry.getBeanDefinitionNames())
                 .map(registry::getBeanDefinition)
+                .map(BeanDefinition::getBeanClassName)
+                .filter(Objects::nonNull)
                 .<Class<?>>map(MainClassResolver::loadClassSafely)
+                .filter(Objects::nonNull)
                 .filter(MainClassResolver::isMainClass)
                 .findFirst();
     }
 
-    private static Class<?> loadClassSafely(BeanDefinition beanDefinition) {
+    private static Class<?> loadClassSafely(@NonNull String beanName) {
         try {
-            String beanClassName = beanDefinition.getBeanClassName();
-            if (Objects.requireNonNull(beanClassName).endsWith("Kt")) {
-                beanClassName = beanClassName.substring(0, beanClassName.length() - 2);
+            if (beanName.endsWith("Kt")) {
+                beanName = beanName.substring(0, beanName.length() - 2);
             }
-            return Class.forName(beanClassName);
+            return Class.forName(beanName);
+
         } catch (ClassNotFoundException e) {
-            throw new IllegalStateException("Unable to load class: " + beanDefinition.getBeanClassName(), e);
+            return null;
         }
     }
 
     private static boolean isMainClass(Class<?> candidate) {
         try {
-            Method main = candidate.getDeclaredMethod("main");
+            Method main = candidate.getDeclaredMethod("main", String[].class);
             int mods = main.getModifiers();
             return Modifier.isPublic(mods) &&
                     Modifier.isStatic(mods) &&

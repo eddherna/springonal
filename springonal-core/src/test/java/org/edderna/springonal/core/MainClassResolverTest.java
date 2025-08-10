@@ -6,39 +6,21 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class MainClassResolverTest {
 
-    static class ValidMainClass {
-        public static void main() {}
-    }
-
     static class ValidArgsMainClass {
-        public static void main() {}
+        public static void main(String[] args) {}
     }
 
     static class NoMainClass {}
 
     static class InvalidMainClass {
         // main existe pero no es public static void
-        void main() {}
-    }
-
-    @Test
-    void shouldFindValidMainClass() {
-        BeanDefinitionRegistry registry = mock(BeanDefinitionRegistry.class);
-        BeanDefinition beanDef = mock(BeanDefinition.class);
-
-        when(registry.getBeanDefinitionNames()).thenReturn(new String[]{"bean"});
-        when(registry.getBeanDefinition("bean")).thenReturn(beanDef);
-        when(beanDef.getBeanClassName()).thenReturn(ValidMainClass.class.getName());
-
-        Optional<Class<?>> result = MainClassResolver.findMainClass(registry);
-
-        assertTrue(result.isPresent());
-        assertEquals(ValidMainClass.class, result.get());
+        void main(String[] args) {}
     }
 
     @Test
@@ -79,10 +61,7 @@ class MainClassResolverTest {
         when(registry.getBeanDefinition("bean")).thenReturn(beanDef);
         when(beanDef.getBeanClassName()).thenReturn("com.example.DoesNotExist");
 
-        IllegalStateException ex = assertThrows(IllegalStateException.class,
-                () -> MainClassResolver.findMainClass(registry));
-
-        assertTrue(ex.getMessage().contains("Unable to load class"));
+        assertThat(MainClassResolver.findMainClass(registry)).isEqualTo(Optional.empty());
     }
 
     @Test
@@ -92,12 +71,12 @@ class MainClassResolverTest {
 
         when(registry.getBeanDefinitionNames()).thenReturn(new String[]{"bean"});
         when(registry.getBeanDefinition("bean")).thenReturn(beanDef);
-        when(beanDef.getBeanClassName()).thenReturn(ValidMainClass.class.getName() + "Kt");
+        when(beanDef.getBeanClassName()).thenReturn(ValidArgsMainClass.class.getName() + "Kt");
 
         Optional<Class<?>> result = MainClassResolver.findMainClass(registry);
 
         assertTrue(result.isPresent());
-        assertEquals(ValidMainClass.class, result.get());
+        assertEquals(ValidArgsMainClass.class, result.get());
     }
 
     @Test
