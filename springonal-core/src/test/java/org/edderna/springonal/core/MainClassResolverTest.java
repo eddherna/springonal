@@ -35,7 +35,7 @@ class MainClassResolverTest {
         when(registry.getBeanDefinition("bean")).thenReturn(beanDef);
         when(beanDef.getBeanClassName()).thenReturn(ValidMainClass.class.getName());
 
-        Optional<? extends Class<?>> result = MainClassResolver.findMainClass(registry);
+        Optional<Class<?>> result = MainClassResolver.findMainClass(registry);
 
         assertTrue(result.isPresent());
         assertEquals(ValidMainClass.class, result.get());
@@ -50,7 +50,7 @@ class MainClassResolverTest {
         when(registry.getBeanDefinition("bean")).thenReturn(beanDef);
         when(beanDef.getBeanClassName()).thenReturn(ValidArgsMainClass.class.getName());
 
-        Optional<? extends Class<?>> result = MainClassResolver.findMainClass(registry);
+        Optional<Class<?>> result = MainClassResolver.findMainClass(registry);
 
         assertTrue(result.isPresent());
         assertEquals(ValidArgsMainClass.class, result.get());
@@ -65,7 +65,7 @@ class MainClassResolverTest {
         when(registry.getBeanDefinition("bean")).thenReturn(beanDef);
         when(beanDef.getBeanClassName()).thenReturn(NoMainClass.class.getName());
 
-        Optional<? extends Class<?>> result = MainClassResolver.findMainClass(registry);
+        Optional<Class<?>> result = MainClassResolver.findMainClass(registry);
 
         assertTrue(result.isEmpty());
     }
@@ -94,7 +94,7 @@ class MainClassResolverTest {
         when(registry.getBeanDefinition("bean")).thenReturn(beanDef);
         when(beanDef.getBeanClassName()).thenReturn(ValidMainClass.class.getName() + "Kt");
 
-        Optional<? extends Class<?>> result = MainClassResolver.findMainClass(registry);
+        Optional<Class<?>> result = MainClassResolver.findMainClass(registry);
 
         assertTrue(result.isPresent());
         assertEquals(ValidMainClass.class, result.get());
@@ -109,7 +109,7 @@ class MainClassResolverTest {
         when(registry.getBeanDefinition("bean")).thenReturn(beanDef);
         when(beanDef.getBeanClassName()).thenReturn(InvalidMainClass.class.getName());
 
-        Optional<? extends Class<?>> result = MainClassResolver.findMainClass(registry);
+        Optional<Class<?>> result = MainClassResolver.findMainClass(registry);
 
         assertTrue(result.isEmpty());
     }

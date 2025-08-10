@@ -14,10 +14,10 @@ final class MainClassResolver {
     private MainClassResolver() {
     }
 
-    static Optional<? extends Class<?>> findMainClass(BeanDefinitionRegistry registry) {
+    static Optional<Class<?>> findMainClass(BeanDefinitionRegistry registry) {
         return Arrays.stream(registry.getBeanDefinitionNames())
                 .map(registry::getBeanDefinition)
-                .map(MainClassResolver::loadClassSafely)
+                .<Class<?>>map(MainClassResolver::loadClassSafely)
                 .filter(MainClassResolver::isMainClass)
                 .findFirst();
     }
