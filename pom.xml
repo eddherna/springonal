@@ -25,4 +25,32 @@
         <spring.version>6.2.9</spring.version>
     </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <configuration>
+                    <licenseName>apache_v2</licenseName>
+                    <addSvnKeyWords>false</addSvnKeyWords>
+                    <inceptionYear>2025</inceptionYear>
+                    <organizationName>Eduardo Daniel Hernandez</organizationName>
+                    <projectName>springonal</projectName>
+                    <failOnMissingHeader>true</failOnMissingHeader>
+                </configuration>
+                <executions>
+                    <!-- Añadir encabezado -->
+                    <execution>
+                        <id>add-license-headers</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
