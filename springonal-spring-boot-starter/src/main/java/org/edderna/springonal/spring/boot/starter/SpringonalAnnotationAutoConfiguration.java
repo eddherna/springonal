@@ -1,7 +1,6 @@
 package org.edderna.springonal.spring.boot.starter;
 
 import org.edderna.springonal.core.SpringonalComponentScanPostProcessor;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -17,6 +16,5 @@ public class SpringonalAnnotationAutoConfiguration {
     @Bean
     public BeanDefinitionRegistryPostProcessor postProcessor() {
         return new SpringonalComponentScanPostProcessor();
-
     }
 }
