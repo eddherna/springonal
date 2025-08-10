@@ -19,30 +19,15 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.edderna</groupId>
+            <artifactId>springonal-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>3.5.4</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.edderna</groupId>
-            <artifactId>springonal-annotations-domain</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.edderna</groupId>
-            <artifactId>springonal-annotations-application</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.edderna</groupId>
-            <artifactId>springonal-annotations-infrastructure</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.edderna</groupId>
-            <artifactId>springonal-annotations-interfaces</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

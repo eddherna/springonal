@@ -14,12 +14,15 @@
         <module>springonal-annotations-infrastructure</module>
         <module>springonal-annotations-interfaces</module>
         <module>springonal-spring-boot-starter</module>
+        <module>springonal-core</module>
     </modules>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.boot.version>3.5.4</spring.boot.version>
+        <spring.version>6.2.9</spring.version>
     </properties>
 
 </project>
