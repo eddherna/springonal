@@ -1,0 +1,11 @@
+                                                     __ _ _
+  ____             _                               _ \ \ \ \
+ / ___| _ __  _ __(_)_ __   __ _  ___  _ __   __ _| | \ \ \ \
+ \___ \| '_ \| '__| | '_ \ / _` |/ _ \| '_ \ / _` | |  ) ) ) )
+  ___) | |_) | |  | | | | | (_| | (_) | | | | (_| | | / / / /
+ |____/| .__/|_|  |_|_| |_|\__, |\___/|_| |_|\__,_|_|/_/_/_/
+       |_|                 |___/
+${application.title} ${application.version}
+Powered by Spring Boot ${spring-boot.version}
+Enhanced by Springonal @project.version@
+
