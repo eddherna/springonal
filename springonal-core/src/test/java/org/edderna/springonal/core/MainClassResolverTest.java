@@ -38,9 +38,13 @@ class MainClassResolverTest {
 
     static class NoMainClass {}
 
-    static class InvalidMainClass {
+    static class NotPublicMainMethodClass {
         // main existe pero no es public static void
-        void main(String[] args) {}
+        static void main(String[] args) {}
+    }
+
+    static class NotStaticMainMethodClass {
+        public void main(String[] args) {}
     }
 
     @Test
@@ -100,13 +104,28 @@ class MainClassResolverTest {
     }
 
     @Test
-    void shouldIgnoreInvalidMainMethodSignature() {
+    void shouldIgnoreNotPublicMainMethodClass() {
         BeanDefinitionRegistry registry = mock(BeanDefinitionRegistry.class);
         BeanDefinition beanDef = mock(BeanDefinition.class);
 
         when(registry.getBeanDefinitionNames()).thenReturn(new String[]{"bean"});
         when(registry.getBeanDefinition("bean")).thenReturn(beanDef);
-        when(beanDef.getBeanClassName()).thenReturn(InvalidMainClass.class.getName());
+        when(beanDef.getBeanClassName()).thenReturn(NotPublicMainMethodClass.class.getName());
+
+        Optional<Class<?>> result = MainClassResolver.findMainClass(registry);
+
+        assertTrue(result.isEmpty());
+    }
+
+
+    @Test
+    void shouldIgnoreNotStaticMainMethodClass() {
+        BeanDefinitionRegistry registry = mock(BeanDefinitionRegistry.class);
+        BeanDefinition beanDef = mock(BeanDefinition.class);
+
+        when(registry.getBeanDefinitionNames()).thenReturn(new String[]{"bean"});
+        when(registry.getBeanDefinition("bean")).thenReturn(beanDef);
+        when(beanDef.getBeanClassName()).thenReturn(NotStaticMainMethodClass.class.getName());
 
         Optional<Class<?>> result = MainClassResolver.findMainClass(registry);
 
