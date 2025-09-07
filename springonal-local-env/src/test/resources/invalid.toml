@@ -1,0 +1,9 @@
+[mongo]
+
+[postgreSQL]
+
+[localStack]
+
+[redis]
+
+[wiremock]

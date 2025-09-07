@@ -1,0 +1,4 @@
+[postgreSQL]
+version = "2"
+readWrite = true
+dbName = "testdbPostgre"

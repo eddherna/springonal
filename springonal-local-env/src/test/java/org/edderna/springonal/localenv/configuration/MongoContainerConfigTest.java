@@ -2,6 +2,7 @@ package org.edderna.springonal.localenv.configuration;
 
 import com.moandjiezana.toml.Toml;
 import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfig;
+import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
@@ -66,7 +67,7 @@ public class MongoContainerConfigTest {
         InputStream is = getClass().getResourceAsStream("/mongo-tests-resources/no-version-mongo.toml");
         Toml toml = new Toml().read(is).getTable("mongo");
         assertThatThrownBy(() -> new MongoContainerConfig(toml))
-                .isInstanceOf(NullPointerException.class)
+                .isInstanceOf(MalformedEnviromentException.class)
                 .hasMessageContaining("Version definition cannot be null.");
     }
 }

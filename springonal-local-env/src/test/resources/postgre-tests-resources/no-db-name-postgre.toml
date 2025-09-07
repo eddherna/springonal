@@ -1,0 +1,5 @@
+[postgreSQL]
+version = "2"
+readWrite = true
+username = "adminPostgre"
+password = "passwordPostgre"

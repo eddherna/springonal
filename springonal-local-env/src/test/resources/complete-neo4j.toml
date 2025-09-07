@@ -1,0 +1,4 @@
+[neo4j]
+version = "5"
+password = "adminPassword"
+initDatabase = "/test.db"
