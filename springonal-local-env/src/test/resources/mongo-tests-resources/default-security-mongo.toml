@@ -1,0 +1,3 @@
+[mongo]
+version = "4.4"
+dbName = "testDbMongo"

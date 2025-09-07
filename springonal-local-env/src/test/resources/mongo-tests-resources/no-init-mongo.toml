@@ -1,0 +1,5 @@
+[mongo]
+version = "4.4"
+username = "adminMongo"
+password = "passwordMongo"
+dbName = "testDbMongo"
