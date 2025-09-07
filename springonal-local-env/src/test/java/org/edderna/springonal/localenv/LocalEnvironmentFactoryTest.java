@@ -1,0 +1,29 @@
+package org.edderna.springonal.localenv;
+
+import org.edderna.springonal.localenv.configuration.LocalEnvironment;
+import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfig;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.*;
+
+public class LocalEnvironmentFactoryTest {
+
+    @Test
+    public void shouldReturnLocalEnvironmentWithOnlyMongoContainer() throws Exception {
+        LocalEnvironmentFactory factory = new LocalEnvironmentFactory();
+        LocalEnvironment env = factory.create("/mongo-tests-resources/complete-mongo-4.toml");
+        assertThat(env).hasAllNullFieldsOrPropertiesExcept("mongoContainerConfig");
+        MongoContainerConfig mongo = env.getMongoContainerConfig();
+        assertThat(mongo).isNotNull();
+        assertThat(mongo.getVersion()).isEqualTo("4.4");
+        assertThat(mongo.getUsername()).isEqualTo("adminMongo");
+        assertThat(mongo.getPassword()).isEqualTo("passwordMongo");
+        assertThat(mongo.getDbName()).isEqualTo("testDbMongo");
+        assertThat(mongo.getInitScripts()).containsExactly(
+                "/mongo-tests-resources/mongo-test-init-scripts/collection-1.js",
+                "/mongo-tests-resources/mongo-test-init-scripts/collection-2.js"
+        );
+    }
+
+}
