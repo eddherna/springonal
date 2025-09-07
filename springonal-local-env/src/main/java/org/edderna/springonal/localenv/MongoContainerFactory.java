@@ -4,7 +4,7 @@ import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfi
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.MountableFile;
 
-public class MongoContainerFactory {
+public class MongoContainerFactory implements ContainerFactory<MongoContainerConfig> {
 
     public GenericContainer create(MongoContainerConfig mongoContainerConfig) {
         GenericContainer mongoDBContainer = new GenericContainer("mongo:" + mongoContainerConfig.getVersion())
