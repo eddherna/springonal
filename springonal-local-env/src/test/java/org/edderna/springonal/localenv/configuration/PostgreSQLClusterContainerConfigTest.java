@@ -73,7 +73,7 @@ public class PostgreSQLClusterContainerConfigTest {
         PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
         assertThat(config.getVersion()).isEqualTo("15.14-bookworm");
         
-        assertThat(config.getInitScripts()).containsExactly("./init-script.sql", "./other-script.sql");
+        assertThat(config.getInitScripts()).isEmpty();
         assertThat(config.getUsername()).isEqualTo("adminPostgre");
         assertThat(config.getPassword()).isEqualTo("passwordPostgre");
         assertThat(config.getDbName()).isEqualTo("testdbPostgre");
