@@ -25,7 +25,7 @@ import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfi
 import org.testcontainers.containers.GenericContainer;
 
 public abstract class ContainerFactory<T extends AbstractContainerConfig> {
-    abstract GenericContainer<?> create(T mongoContainerConfig);
+    abstract GenericContainer<?> create(T config);
 
     protected String getScriptFileName(String scriptPath) {
         return scriptPath.substring(scriptPath.lastIndexOf('/') + 1);

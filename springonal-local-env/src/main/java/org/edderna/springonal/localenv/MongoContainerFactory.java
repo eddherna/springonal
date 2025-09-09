@@ -27,14 +27,14 @@ import org.testcontainers.utility.MountableFile;
 public class MongoContainerFactory extends ContainerFactory<MongoContainerConfig> {
 
     @Override
-    public GenericContainer<?> create(MongoContainerConfig mongoContainerConfig) {
-        GenericContainer<?> mongoDBContainer = new GenericContainer<>("mongo:" + mongoContainerConfig.getVersion())
-                .withEnv("MONGO_INITDB_ROOT_USERNAME", mongoContainerConfig.getUsername())
-                .withEnv("MONGO_INITDB_ROOT_PASSWORD", mongoContainerConfig.getPassword())
-                .withEnv("MONGO_INITDB_DATABASE", mongoContainerConfig.getDbName())
+    public GenericContainer<?> create(MongoContainerConfig config) {
+        GenericContainer<?> mongoDBContainer = new GenericContainer<>("mongo:" + config.getVersion())
+                .withEnv("MONGO_INITDB_ROOT_USERNAME", config.getUsername())
+                .withEnv("MONGO_INITDB_ROOT_PASSWORD", config.getPassword())
+                .withEnv("MONGO_INITDB_DATABASE", config.getDbName())
                 .withExposedPorts(27017);
 
-        for (String script : mongoContainerConfig.getInitScripts()) {
+        for (String script : config.getInitScripts()) {
             mongoDBContainer.withCopyFileToContainer(MountableFile.forClasspathResource(script),
                     "/docker-entrypoint-initdb.d/" + getScriptFileName(script));
         }
