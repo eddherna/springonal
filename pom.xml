@@ -9,12 +9,15 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>springonal-annotations-domain</module>
-        <module>springonal-annotations-application</module>
-        <module>springonal-annotations-infrastructure</module>
-        <module>springonal-annotations-interfaces</module>
+        <module>springonal-context-annotations-domain</module>
+        <module>springonal-context-annotations-application</module>
+        <module>springonal-context-annotations-infrastructure</module>
+        <module>springonal-context-annotations-interfaces</module>
         <module>springonal-spring-boot-starter</module>
         <module>springonal-core</module>
+        <module>springonal-local-env</module>
+        <module>springonal-spring-boot-local-env-starter</module>
+        <module>springonal-context-annotations</module>
     </modules>
 
     <properties>
@@ -52,5 +55,32 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.4.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.4.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.27.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.18.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -28,12 +28,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-final class BasePackageResolver {
+public final class BasePackageResolver {
 
     private BasePackageResolver() {
     }
 
-    static Set<String> resolveBasePackage(Class<?> clazz) {
+    public static Set<String> resolveBasePackage(Class<?> clazz) {
         return Stream.concat(
                 Stream.of(clazz.getPackageName()),
                 Stream.concat(

@@ -1,5 +1,4 @@
 [postgreSQL]
-readWrite = true
 initScripts = ["./init-script.sql", "./other-script.sql"]
 username = "adminPostgre"
 password = "passwordPostgre"

@@ -1,7 +1,5 @@
 [postgreSQL]
-version = "2"
-readWrite = true
-initScripts = ["./init-script.sql", "./other-script.sql"]
+version = "15.14-bookworm"
 username = "adminPostgre"
 password = "passwordPostgre"
 dbName = "testdbPostgre"

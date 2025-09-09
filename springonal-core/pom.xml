@@ -27,19 +27,19 @@
         </dependency>
         <dependency>
             <groupId>org.edderna</groupId>
-            <artifactId>springonal-annotations-application</artifactId>
+            <artifactId>springonal-context-annotations-application</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.edderna</groupId>
-            <artifactId>springonal-annotations-infrastructure</artifactId>
+            <artifactId>springonal-context-annotations-infrastructure</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.edderna</groupId>
-            <artifactId>springonal-annotations-interfaces</artifactId>
+            <artifactId>springonal-context-annotations-interfaces</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

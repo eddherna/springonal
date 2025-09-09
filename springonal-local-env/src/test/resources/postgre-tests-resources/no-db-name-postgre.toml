@@ -1,5 +1,4 @@
 [postgreSQL]
-version = "2"
-readWrite = true
+version = "15.14-bookworm"
 username = "adminPostgre"
 password = "passwordPostgre"
