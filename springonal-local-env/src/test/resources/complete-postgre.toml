@@ -1,7 +1,0 @@
-[postgreSQL]
-version = "2"
-readWrite = true
-initScripts = ["./init-script.sql", "./other-script.sql"]
-username = "adminPostgre"
-password = "passwordPostgre"
-dbName = "testdbPostgre"
