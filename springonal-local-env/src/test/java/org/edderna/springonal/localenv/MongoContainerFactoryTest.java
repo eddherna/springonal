@@ -25,7 +25,6 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfig;
 import org.edderna.springonal.localenv.configuration.mongodb.MongoDBConnectionStringBuilder;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import org.testcontainers.containers.GenericContainer;

@@ -1,0 +1,24 @@
+[mongo]
+version = "4.4"
+username = "adminMongo"
+password = "passwordMongo"
+dbName = "testDbMongo"
+initScripts = ["/mongo-tests-resources/mongo-test-init-scripts/collection-1.js", "/mongo-tests-resources/mongo-test-init-scripts/collection-2.js"]
+
+[postgreSQL]
+version = "15.14-bookworm"
+initScripts = ["/postgre-tests-resources/init-scripts/init-script.sql", "/postgre-tests-resources/init-scripts/other-script.sql"]
+username = "adminPostgre"
+password = "passwordPostgre"
+dbName = "testdbPostgre"
+
+[redis]
+version = "8.2.1"
+
+[cassandra]
+version = "1"
+username = "cassandra_user"
+password = "cassandra_password"
+keyspace = "test_keyspace"
+initScript = ["/cassandra-tests-resorces/cassandra-test-init-scripts/create.cql",
+    "/cassandra-tests-resources/cassandra-test-init-scripts/insert.cql"]

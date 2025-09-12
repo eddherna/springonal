@@ -21,9 +21,9 @@ package org.edderna.springonal.localenv.configuration.redis;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.AbstractContainerConfig;
+import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig;
 
-public class RedisContainerConfig extends AbstractContainerConfig {
+public class RedisContainerConfig extends AuthResourceContainerConfig {
     public RedisContainerConfig(Toml toml) {
         super(toml);
     }

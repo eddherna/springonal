@@ -21,88 +21,80 @@ package org.edderna.springonal.localenv.configuration;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.redis.RedisContainerConfig;
+import org.edderna.springonal.localenv.configuration.scylla.ScyllaContainerConfig;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class RedisContainerConfigTest {
+public class ScyllaContainerConfigTest {
 
     @Test
-    void shouldReturnCompleteConfigWithCompleteConfigFile() {
+    void shouldCreateScyllaContainerConfigWithCompleteToml() {
         Toml toml = new Toml().read("""
-                        version="8.2.1"
-                        username="redis_user"
-                        password="redis_pass"
+                        version="1.2.3"
+                        keyspace="test_keyspace"
+                        username="test_username"
+                        password="test_password"
+                        init-scripts=["script1", "script2"]
                 """);
-
-        RedisContainerConfig config = new RedisContainerConfig(toml);
+        ScyllaContainerConfig config = new ScyllaContainerConfig(toml);
 
         assertThat(config)
-                .hasFieldOrPropertyWithValue("version", "8.2.1")
-                .hasFieldOrPropertyWithValue("username", "redis_user")
-                .hasFieldOrPropertyWithValue("password", "redis_pass");
+                .hasFieldOrPropertyWithValue("version", "1.2.3")
+                .hasFieldOrPropertyWithValue("keyspace", "test_keyspace")
+                .hasFieldOrPropertyWithValue("username", "test_username")
+                .hasFieldOrPropertyWithValue("password", "test_password")
+                .hasFieldOrPropertyWithValue("initScripts", List.of("script1", "script2"));
+
     }
 
     @Test
-    void shouldReturnLocalEnvironmentWithOnlyUsernameConfigured() {
+    void shouldCreateScyllaContainerConfigWithDefaults() {
         Toml toml = new Toml().read("""
-                        version="8.2.1"
-                        username="redis_user"
+                        version="1.2.3"
                 """);
-
-        RedisContainerConfig config = new RedisContainerConfig(toml);
+        ScyllaContainerConfig config = new ScyllaContainerConfig(toml);
 
         assertThat(config)
-                .hasFieldOrPropertyWithValue("version", "8.2.1")
+                .hasFieldOrPropertyWithValue("version", "1.2.3")
+                .hasFieldOrPropertyWithValue("keyspace", "test")
+                .hasFieldOrPropertyWithValue("username", "test")
+                .hasFieldOrPropertyWithValue("password", "test")
+                .hasFieldOrPropertyWithValue("initScripts", List.of());
+    }
+
+    @Test
+    void shouldCreateScyllaContainerOnlyUserReturnDefault() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        username="only_user"
+                """);
+
+        ScyllaContainerConfig config = new ScyllaContainerConfig(toml);
+
+        assertThat(config)
+                .hasFieldOrPropertyWithValue("version", "1.2.3")
                 .hasFieldOrPropertyWithValue("username", "test")
                 .hasFieldOrPropertyWithValue("password", "test");
     }
 
     @Test
-    void shouldReturnLocalEnvironmentWithOnlyPasswordConfigured() {
+    void shouldCreateScyllaContainerOnlyPasswordReturnDefault() {
         Toml toml = new Toml().read("""
-                        version="8.2.1"
-                        password="redis_pass"
+                        version="1.2.3"
+                        password="only_password"
                 """);
 
-        RedisContainerConfig config = new RedisContainerConfig(toml);
+        ScyllaContainerConfig config = new ScyllaContainerConfig(toml);
 
         assertThat(config)
-                .hasFieldOrPropertyWithValue("version", "8.2.1")
+                .hasFieldOrPropertyWithValue("version", "1.2.3")
                 .hasFieldOrPropertyWithValue("username", "test")
                 .hasFieldOrPropertyWithValue("password", "test");
-    }
-
-    @Test
-    void shouldReturnDefaultValuesWhenEmptyConfiguration() {
-        Toml toml = new Toml().read("""
-                        version="8.2.1"
-                """);
-
-        RedisContainerConfig config = new RedisContainerConfig(toml);
-
-        assertThat(config)
-                .hasFieldOrPropertyWithValue("version", "8.2.1")
-                .hasFieldOrPropertyWithValue("username", "test")
-                .hasFieldOrPropertyWithValue("password", "test");
-    }
-
-    @Test
-    void shouldThrowExceptionWhenVersionIsMissing() {
-        Toml toml = new Toml().read("""
-                        username="redis_user"
-                        password="redis_pass"
-                """);
-
-        MalformedEnviromentException exception = assertThrows(
-                MalformedEnviromentException.class,
-                () -> new RedisContainerConfig(toml)
-        );
-
-        assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");
     }
 
     @Test
@@ -111,7 +103,7 @@ public class RedisContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new RedisContainerConfig(toml)
+                () -> new ScyllaContainerConfig(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");

@@ -1,4 +1,4 @@
-package org.edderna.springonal.localenv.configuration.postgre;
+package org.edderna.springonal.localenv.configuration.scylla;
 
 /*-
  * #%L
@@ -25,21 +25,23 @@ import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig
 
 import java.util.List;
 
-public class PostgreSQLContainerConfig extends AuthResourceContainerConfig {
-    private List<String> initScripts;
-    private String dbName;
+public class ScyllaContainerConfig extends AuthResourceContainerConfig {
 
-    public PostgreSQLContainerConfig(Toml toml) {
+    private String keyspace;
+    private List<String> initScripts;
+
+    public ScyllaContainerConfig(Toml toml) {
         super(toml);
-        this.initScripts = toml.getList("initScripts", List.of());
-        this.dbName = toml.getString("db-name", "test");
+        keyspace = toml.getString("keyspace", "test");
+        initScripts = toml.getList("init-scripts", List.of());
+    }
+
+    public String getKeyspace() {
+        return keyspace;
     }
 
     public List<String> getInitScripts() {
         return initScripts;
     }
 
-    public String getDbName() {
-        return dbName;
-    }
 }

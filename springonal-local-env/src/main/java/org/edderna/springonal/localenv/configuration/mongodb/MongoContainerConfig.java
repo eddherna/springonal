@@ -21,37 +21,25 @@ package org.edderna.springonal.localenv.configuration.mongodb;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.AbstractContainerConfig;
+import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig;
 
 import java.util.List;
 
-public class MongoContainerConfig extends AbstractContainerConfig {
-    String username;
-    String password;
+public class MongoContainerConfig extends AuthResourceContainerConfig {
     String dbName;
-    String[] initScripts;
+    List<String> initScripts;
 
     public MongoContainerConfig(Toml toml) {
         super(toml);
-        this.username = toml.getString("username", "admin");
-        this.password = toml.getString("password", "password");
-        this.dbName = toml.getString("dbName", "test");
-        this.initScripts = toml.getList("initScripts", List.of()).toArray(new String[0]);
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
+        this.dbName = toml.getString("db-name", "test");
+        this.initScripts = toml.getList("init-scripts", List.of());
     }
 
     public String getDbName() {
         return dbName;
     }
 
-    public String[] getInitScripts() {
+    public List<String> getInitScripts() {
         return initScripts;
     }
 }

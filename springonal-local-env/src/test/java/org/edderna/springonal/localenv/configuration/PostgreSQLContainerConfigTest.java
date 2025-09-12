@@ -21,7 +21,7 @@ package org.edderna.springonal.localenv.configuration;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfig;
+import org.edderna.springonal.localenv.configuration.postgre.PostgreSQLContainerConfig;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 import org.junit.jupiter.api.Test;
 
@@ -30,33 +30,33 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MongoContainerConfigTest {
+public class PostgreSQLContainerConfigTest {
 
     @Test
-    void shouldCreateMongoContainerConfigWithCompleteToml() {
+    void shouldCreatePostgreSQLContainerConfigWithCompleteToml() {
         Toml toml = new Toml().read("""
                         version="1.2.3"
                         db-name="test_database"
                         username="test_username"
                         password="test_password"
-                        init-scripts=["script1", "script2"]
+                        initScripts=["script1.sql", "script2.sql"]
                 """);
-        MongoContainerConfig config = new MongoContainerConfig(toml);
+        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
                 .hasFieldOrPropertyWithValue("dbName", "test_database")
                 .hasFieldOrPropertyWithValue("username", "test_username")
                 .hasFieldOrPropertyWithValue("password", "test_password")
-                .hasFieldOrPropertyWithValue("initScripts", List.of("script1", "script2"));
+                .hasFieldOrPropertyWithValue("initScripts", List.of("script1.sql", "script2.sql"));
     }
 
     @Test
-    void shouldCreateMongoContainerConfigWithDefaults() {
+    void shouldCreatePostgreSQLContainerConfigWithDefaults() {
         Toml toml = new Toml().read("""
                         version="1.2.3"
                 """);
-        MongoContainerConfig config = new MongoContainerConfig(toml);
+        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -67,13 +67,13 @@ public class MongoContainerConfigTest {
     }
 
     @Test
-    void shouldCreateMongoContainerOnlyUserReturnDefault() {
+    void shouldCreatePostgreSQLContainerOnlyUserReturnDefault() {
         Toml toml = new Toml().read("""
                         version="1.2.3"
                         username="only_user"
                 """);
 
-        MongoContainerConfig config = new MongoContainerConfig(toml);
+        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -82,13 +82,13 @@ public class MongoContainerConfigTest {
     }
 
     @Test
-    void shouldCreateMongoContainerOnlyPasswordReturnDefault() {
+    void shouldCreatePostgreSQLContainerOnlyPasswordReturnDefault() {
         Toml toml = new Toml().read("""
                         version="1.2.3"
                         password="only_password"
                 """);
 
-        MongoContainerConfig config = new MongoContainerConfig(toml);
+        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -97,13 +97,13 @@ public class MongoContainerConfigTest {
     }
 
     @Test
-    void shouldCreateMongoContainerOnlyDatabaseReturnDefault() {
+    void shouldCreatePostgreSQLContainerOnlyDbNameReturnDefault() {
         Toml toml = new Toml().read("""
                         version="1.2.3"
                         db-name="only_database"
                 """);
 
-        MongoContainerConfig config = new MongoContainerConfig(toml);
+        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -113,12 +113,27 @@ public class MongoContainerConfigTest {
     }
 
     @Test
+    void shouldCreatePostgreSQLContainerOnlyInitScripts() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        initScripts=["init.sql"]
+                """);
+
+        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
+
+        assertThat(config)
+                .hasFieldOrPropertyWithValue("version", "1.2.3")
+                .hasFieldOrPropertyWithValue("initScripts", List.of("init.sql"))
+                .hasFieldOrPropertyWithValue("dbName", "test");
+    }
+
+    @Test
     void shouldThrowExceptionWhenTomlIsEmpty() {
         Toml toml = new Toml().read("");
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new MongoContainerConfig(toml)
+                () -> new PostgreSQLContainerConfig(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");
