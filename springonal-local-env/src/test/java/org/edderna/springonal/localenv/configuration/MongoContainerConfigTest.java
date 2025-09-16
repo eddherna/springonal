@@ -39,7 +39,7 @@ public class MongoContainerConfigTest {
                         db-name="test_database"
                         username="test_username"
                         password="test_password"
-                        init-scripts=["script1", "script2"]
+                        init-scripts=["script1.js", "script2.js"]
                 """);
         MongoContainerConfig config = new MongoContainerConfig(toml);
 
@@ -48,7 +48,7 @@ public class MongoContainerConfigTest {
                 .hasFieldOrPropertyWithValue("dbName", "test_database")
                 .hasFieldOrPropertyWithValue("username", "test_username")
                 .hasFieldOrPropertyWithValue("password", "test_password")
-                .hasFieldOrPropertyWithValue("initScripts", List.of("script1", "script2"));
+                .hasFieldOrPropertyWithValue("initScripts", List.of("script1.js", "script2.js"));
     }
 
     @Test
@@ -122,5 +122,64 @@ public class MongoContainerConfigTest {
         );
 
         assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");
+    }
+
+    @Test
+    void shouldCreateMongoContainerWithValidJsInitScripts() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        init-scripts=["init.js", "setup.js", "data.js"]
+                """);
+
+        MongoContainerConfig config = new MongoContainerConfig(toml);
+
+        assertThat(config)
+                .hasFieldOrPropertyWithValue("version", "1.2.3")
+                .hasFieldOrPropertyWithValue("initScripts", List.of("init.js", "setup.js", "data.js"));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInitScriptDoesNotHaveJsExtension() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        init-scripts=["init.js", "setup.sql", "data.js"]
+                """);
+
+        MalformedEnviromentException exception = assertThrows(
+                MalformedEnviromentException.class,
+                () -> new MongoContainerConfig(toml)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("Init script 'setup.sql' must have .js extension");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInitScriptHasNoExtension() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        init-scripts=["init.js", "setup", "data.js"]
+                """);
+
+        MalformedEnviromentException exception = assertThrows(
+                MalformedEnviromentException.class,
+                () -> new MongoContainerConfig(toml)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("Init script 'setup' must have .js extension");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInitScriptHasWrongExtension() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        init-scripts=["init.txt"]
+                """);
+
+        MalformedEnviromentException exception = assertThrows(
+                MalformedEnviromentException.class,
+                () -> new MongoContainerConfig(toml)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("Init script 'init.txt' must have .js extension");
     }
 }

@@ -138,4 +138,63 @@ public class PostgreSQLContainerConfigTest {
 
         assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");
     }
+
+    @Test
+    void shouldCreatePostgreSQLContainerWithValidSqlInitScripts() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        initScripts=["init.sql", "schema.sql", "data.sql"]
+                """);
+
+        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
+
+        assertThat(config)
+                .hasFieldOrPropertyWithValue("version", "1.2.3")
+                .hasFieldOrPropertyWithValue("initScripts", List.of("init.sql", "schema.sql", "data.sql"));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInitScriptDoesNotHaveSqlExtension() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        initScripts=["init.sql", "setup.js", "data.sql"]
+                """);
+
+        MalformedEnviromentException exception = assertThrows(
+                MalformedEnviromentException.class,
+                () -> new PostgreSQLContainerConfig(toml)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("Init script 'setup.js' must have .sql extension");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInitScriptHasNoExtension() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        initScripts=["init.sql", "setup", "data.sql"]
+                """);
+
+        MalformedEnviromentException exception = assertThrows(
+                MalformedEnviromentException.class,
+                () -> new PostgreSQLContainerConfig(toml)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("Init script 'setup' must have .sql extension");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInitScriptHasWrongExtension() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        initScripts=["init.txt"]
+                """);
+
+        MalformedEnviromentException exception = assertThrows(
+                MalformedEnviromentException.class,
+                () -> new PostgreSQLContainerConfig(toml)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("Init script 'init.txt' must have .sql extension");
+    }
 }

@@ -1,4 +1,4 @@
-package org.edderna.springonal.localenv.configuration.redis;
+package org.edderna.springonal.localenv.container;
 
 /*-
  * #%L
@@ -9,9 +9,9 @@ package org.edderna.springonal.localenv.configuration.redis;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,33 +20,33 @@ package org.edderna.springonal.localenv.configuration.redis;
  * #L%
  */
 
-import org.testcontainers.containers.GenericContainer;
+import org.edderna.springonal.localenv.configuration.redis.RedisContainerConfig;
+
 
 import java.io.IOException;
 
-public class RedisContainer extends GenericContainer<RedisContainer> {
+public class RedisContainer extends GenericDBContainer {
 
     private String username;
     private String password;
 
 
     public RedisContainer(RedisContainerConfig config) {
-        super("redis:" + config.getVersion());
+        super("redis", config.getVersion(), null, config.getUsername(), config.getPassword());
         username = config.getUsername();
         password = config.getPassword();
         this.withExposedPorts(6379);
     }
 
     @Override
-    public void start() {
-        super.start();
-        try {
-            // Create new user
-            this.execInContainer("/bin/sh", "-c", "redis-cli ACL SETUSER " + username + " ON '>" + password + "' +@all ~*");
-            // Remove annonymous login
-            this.execInContainer("/bin/sh", "-c", "redis-cli ACL SETUSER default OFF");
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    protected void customizeResource() throws IOException, InterruptedException {
+        this.execInContainer("/bin/sh", "-c", "redis-cli ACL SETUSER " + username + " ON '>" + password + "' +@all ~*");
+        // Remove annonymous login
+        this.execInContainer("/bin/sh", "-c", "redis-cli ACL SETUSER default OFF");
+    }
+
+    @Override
+    protected void exposePorts() {
+        this.withExposedPorts(6379);
     }
 }

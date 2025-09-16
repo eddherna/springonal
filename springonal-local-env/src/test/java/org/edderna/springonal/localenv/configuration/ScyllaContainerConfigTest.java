@@ -39,7 +39,7 @@ public class ScyllaContainerConfigTest {
                         keyspace="test_keyspace"
                         username="test_username"
                         password="test_password"
-                        init-scripts=["script1", "script2"]
+                        init-scripts=["script1.cql", "script2.cql"]
                 """);
         ScyllaContainerConfig config = new ScyllaContainerConfig(toml);
 
@@ -48,7 +48,7 @@ public class ScyllaContainerConfigTest {
                 .hasFieldOrPropertyWithValue("keyspace", "test_keyspace")
                 .hasFieldOrPropertyWithValue("username", "test_username")
                 .hasFieldOrPropertyWithValue("password", "test_password")
-                .hasFieldOrPropertyWithValue("initScripts", List.of("script1", "script2"));
+                .hasFieldOrPropertyWithValue("initScripts", List.of("script1.cql", "script2.cql"));
 
     }
 
@@ -107,5 +107,64 @@ public class ScyllaContainerConfigTest {
         );
 
         assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");
+    }
+
+    @Test
+    void shouldCreateScyllaContainerWithValidCqlInitScripts() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        init-scripts=["init.cql", "schema.cql", "data.cql"]
+                """);
+
+        ScyllaContainerConfig config = new ScyllaContainerConfig(toml);
+
+        assertThat(config)
+                .hasFieldOrPropertyWithValue("version", "1.2.3")
+                .hasFieldOrPropertyWithValue("initScripts", List.of("init.cql", "schema.cql", "data.cql"));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInitScriptDoesNotHaveCqlExtension() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        init-scripts=["init.cql", "setup.sql", "data.cql"]
+                """);
+
+        MalformedEnviromentException exception = assertThrows(
+                MalformedEnviromentException.class,
+                () -> new ScyllaContainerConfig(toml)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("Init script 'setup.sql' must have .cql extension");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInitScriptHasNoExtension() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        init-scripts=["init.cql", "setup", "data.cql"]
+                """);
+
+        MalformedEnviromentException exception = assertThrows(
+                MalformedEnviromentException.class,
+                () -> new ScyllaContainerConfig(toml)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("Init script 'setup' must have .cql extension");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInitScriptHasWrongExtension() {
+        Toml toml = new Toml().read("""
+                        version="1.2.3"
+                        init-scripts=["init.js"]
+                """);
+
+        MalformedEnviromentException exception = assertThrows(
+                MalformedEnviromentException.class,
+                () -> new ScyllaContainerConfig(toml)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("Init script 'init.js' must have .cql extension");
     }
 }

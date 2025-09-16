@@ -1,4 +1,0 @@
-[cassandra]
-initScript = "init-script"
-initScripts = ["/cassandra-tests-resources/cassandra-test-init-scripts/create.cql",
-    "/cassandra-tests-resources/cassandra-test-init-scripts/insert.cql"]

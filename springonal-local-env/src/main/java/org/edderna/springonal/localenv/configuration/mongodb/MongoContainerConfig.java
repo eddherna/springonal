@@ -22,6 +22,7 @@ package org.edderna.springonal.localenv.configuration.mongodb;
 
 import com.moandjiezana.toml.Toml;
 import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig;
+import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 
 import java.util.List;
 
@@ -33,6 +34,16 @@ public class MongoContainerConfig extends AuthResourceContainerConfig {
         super(toml);
         this.dbName = toml.getString("db-name", "test");
         this.initScripts = toml.getList("init-scripts", List.of());
+
+        validateInitScripts();
+    }
+
+    private void validateInitScripts() {
+        for (String script : initScripts) {
+            if (!script.endsWith(".js")) {
+                throw new MalformedEnviromentException("Init script '" + script + "' must have .js extension");
+            }
+        }
     }
 
     public String getDbName() {

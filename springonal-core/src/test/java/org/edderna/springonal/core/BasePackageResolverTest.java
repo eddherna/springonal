@@ -1,5 +1,9 @@
 package org.edderna.springonal.core;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Set;
+
 /*-
  * #%L
  * springonal
@@ -19,14 +23,9 @@ package org.edderna.springonal.core;
  * limitations under the License.
  * #L%
  */
-
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
-
-import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class BasePackageResolverTest {
 

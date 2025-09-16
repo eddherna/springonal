@@ -1,0 +1,1 @@
+CREATE (:Person:Actor {name: 'Maria', born: 1956})-[:ACTED_IN {roles: ['Forrest']}]->(:Movie {title: 'Forrest Gump', released: 1994});

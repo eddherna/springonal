@@ -1,4 +1,4 @@
-package org.edderna.springonal.localenv.configuration.scylla;
+package org.edderna.springonal.localenv.configuration.neo4j;
 
 /*-
  * #%L
@@ -26,33 +26,31 @@ import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 
 import java.util.List;
 
-public class ScyllaContainerConfig extends AuthResourceContainerConfig {
+public class Neo4jContainerConfig extends AuthResourceContainerConfig {
 
-    private String keyspace;
-    private List<String> initScripts;
+    List<String> initScripts;
+    boolean console;
 
-    public ScyllaContainerConfig(Toml toml) {
+    public Neo4jContainerConfig(Toml toml) {
         super(toml);
-        keyspace = toml.getString("keyspace", "test");
         initScripts = toml.getList("init-scripts", List.of());
-
+        console = toml.getBoolean("console", false);
         validateInitScripts();
     }
 
     private void validateInitScripts() {
         for (String script : initScripts) {
-            if (!script.endsWith(".cql")) {
-                throw new MalformedEnviromentException("Init script '" + script + "' must have .cql extension");
+            if (!script.endsWith(".cypher")) {
+                throw new MalformedEnviromentException("Init script '" + script + "' must have .cypher extension");
             }
         }
-    }
-
-    public String getKeyspace() {
-        return keyspace;
     }
 
     public List<String> getInitScripts() {
         return initScripts;
     }
 
+    public boolean hasConsole() {
+        return console;
+    }
 }

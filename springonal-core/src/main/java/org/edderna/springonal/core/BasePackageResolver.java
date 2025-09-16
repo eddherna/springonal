@@ -1,5 +1,11 @@
 package org.edderna.springonal.core;
 
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /*-
  * #%L
  * springonal
@@ -19,14 +25,9 @@ package org.edderna.springonal.core;
  * limitations under the License.
  * #L%
  */
-
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.core.annotation.AnnotationUtils;
-
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public final class BasePackageResolver {
 

@@ -1,4 +1,0 @@
-[postgreSQL]
-version = "15.14-bookworm"
-username = "adminPostgre"
-password = "passwordPostgre"

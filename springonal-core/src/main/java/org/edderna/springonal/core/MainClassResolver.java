@@ -75,7 +75,7 @@ public final class MainClassResolver {
             return Modifier.isPublic(mods) &&
                     Modifier.isStatic(mods) &&
                     main.getReturnType().equals(void.class);
-        } catch (NoSuchMethodException _) {
+        } catch (NoSuchMethodException e) {
             return false;
         }
     }

@@ -1,6 +1,0 @@
-[mongo]
-version = "5.0"
-username = "adminMongo"
-password = "passwordMongo"
-dbName = "testDbMongo"
-initScripts = ["/mongo-tests-resources/mongo-test-init-scripts/collection-1.js", "/mongo-tests-resources/mongo-test-init-scripts/collection-2.js"]
