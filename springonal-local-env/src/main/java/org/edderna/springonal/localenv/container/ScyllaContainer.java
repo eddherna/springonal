@@ -77,7 +77,6 @@ public class ScyllaContainer extends GenericDBContainer {
 
     @Override
     protected void runScriptContent(String scriptContent) throws IOException, InterruptedException {
-        String scriptContentWithKeyspace = "USE " + keyspace + ";" + scriptContent;
-        this.execInContainer("cqlsh", "-u", username, "-p", password, "-e", scriptContentWithKeyspace);
+        this.execInContainer("cqlsh", "-u", username, "-p", password, "-e", scriptContent);
     }
 }

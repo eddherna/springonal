@@ -24,6 +24,7 @@ import com.moandjiezana.toml.Toml;
 import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostgreSQLContainerConfig extends AuthResourceContainerConfig {
@@ -32,7 +33,7 @@ public class PostgreSQLContainerConfig extends AuthResourceContainerConfig {
 
     public PostgreSQLContainerConfig(Toml toml) {
         super(toml);
-        this.initScripts = toml.getList("initScripts", List.of());
+        this.initScripts = toml.getList("init-scripts", new ArrayList<>());
         this.dbName = toml.getString("db-name", "test");
 
         validateInitScripts();

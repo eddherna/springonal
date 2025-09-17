@@ -1,3 +1,5 @@
+use test_keyspace;
+
 INSERT INTO users (id, username, email, created_at, is_active)
 VALUES (uuid(), 'admin', 'admin@example.com', toTimestamp(now()), true);
 

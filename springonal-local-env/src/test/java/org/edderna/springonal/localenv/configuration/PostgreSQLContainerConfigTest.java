@@ -39,7 +39,7 @@ public class PostgreSQLContainerConfigTest {
                         db-name="test_database"
                         username="test_username"
                         password="test_password"
-                        initScripts=["script1.sql", "script2.sql"]
+                        init-scripts=["script1.sql", "script2.sql"]
                 """);
         PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
 
@@ -116,7 +116,7 @@ public class PostgreSQLContainerConfigTest {
     void shouldCreatePostgreSQLContainerOnlyInitScripts() {
         Toml toml = new Toml().read("""
                         version="1.2.3"
-                        initScripts=["init.sql"]
+                        init-scripts=["init.sql"]
                 """);
 
         PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
@@ -143,7 +143,7 @@ public class PostgreSQLContainerConfigTest {
     void shouldCreatePostgreSQLContainerWithValidSqlInitScripts() {
         Toml toml = new Toml().read("""
                         version="1.2.3"
-                        initScripts=["init.sql", "schema.sql", "data.sql"]
+                        init-scripts=["init.sql", "schema.sql", "data.sql"]
                 """);
 
         PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
@@ -157,7 +157,7 @@ public class PostgreSQLContainerConfigTest {
     void shouldThrowExceptionWhenInitScriptDoesNotHaveSqlExtension() {
         Toml toml = new Toml().read("""
                         version="1.2.3"
-                        initScripts=["init.sql", "setup.js", "data.sql"]
+                        init-scripts=["init.sql", "setup.js", "data.sql"]
                 """);
 
         MalformedEnviromentException exception = assertThrows(
@@ -172,7 +172,7 @@ public class PostgreSQLContainerConfigTest {
     void shouldThrowExceptionWhenInitScriptHasNoExtension() {
         Toml toml = new Toml().read("""
                         version="1.2.3"
-                        initScripts=["init.sql", "setup", "data.sql"]
+                        init-scripts=["init.sql", "setup", "data.sql"]
                 """);
 
         MalformedEnviromentException exception = assertThrows(
@@ -187,7 +187,7 @@ public class PostgreSQLContainerConfigTest {
     void shouldThrowExceptionWhenInitScriptHasWrongExtension() {
         Toml toml = new Toml().read("""
                         version="1.2.3"
-                        initScripts=["init.txt"]
+                        init-scripts=["init.txt"]
                 """);
 
         MalformedEnviromentException exception = assertThrows(
