@@ -29,6 +29,16 @@ import java.util.List;
 
 public class MongoContainer extends GenericDBContainer {
 
+    public static final String CREATE_USER_QUERY = """
+                db.getSiblingDB('%s').createUser({
+                    user: '%s',
+                    pwd: '%s',
+                    roles: [{
+                        role: "readWrite",
+                        db: "%s"
+                    }]
+                })
+            """;
     private String dbName;
 
     public MongoContainer(MongoContainerConfig config) {
@@ -45,18 +55,7 @@ public class MongoContainer extends GenericDBContainer {
 
     @Override
     protected void customizeResource() throws IOException, InterruptedException {
-        var script = """
-                    db.getSiblingDB('%s').createUser({
-                        user: '%s',
-                        pwd: '%s',
-                        roles: [{
-                            role: "readWrite",
-                            db: "dbTest"
-                        }]
-                    })
-                """;
-
-        execInContainer("mongosh", "--eval", "\"" + String.format(script, dbName, username, password, dbName) + "\"");
+        execInContainer("mongosh", "--eval", "\"" + String.format(CREATE_USER_QUERY, dbName, username, password, dbName) + "\"");
     }
 
     @Override
