@@ -25,7 +25,7 @@ import org.edderna.springonal.localenv.configuration.scylla.ScyllaContainerConfi
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AuthResourceContainerConfig extends AbstractContainerConfig {
+public class AuthenticableDatabaseContainerConfig extends AbstractContainerConfig {
 
     public static final String DEFAULT_USER = "test";
     public static final String DEFAULT_PASS = "test";
@@ -34,7 +34,7 @@ public class AuthResourceContainerConfig extends AbstractContainerConfig {
     private final String username;
     private final String password;
 
-    public AuthResourceContainerConfig(Toml toml) {
+    public AuthenticableDatabaseContainerConfig(Toml toml) {
         super(toml);
         if (toml.contains("username") && toml.contains("password")) {
             username = toml.getString("username", DEFAULT_USER);

@@ -9,9 +9,9 @@ package org.edderna.springonal.localenv.configuration.mongodb;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,19 +21,18 @@ package org.edderna.springonal.localenv.configuration.mongodb;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig;
+import org.edderna.springonal.localenv.configuration.AuthenticableDatabaseContainerConfig;
+import org.edderna.springonal.localenv.configuration.InitializableDatabaseContainerConfig;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 
 import java.util.List;
 
-public class MongoContainerConfig extends AuthResourceContainerConfig {
+public class MongoContainerConfig extends InitializableDatabaseContainerConfig {
     String dbName;
-    List<String> initScripts;
 
     public MongoContainerConfig(Toml toml) {
         super(toml);
         this.dbName = toml.getString("db-name", "test");
-        this.initScripts = toml.getList("init-scripts", List.of());
 
         validateInitScripts();
     }
@@ -48,9 +47,5 @@ public class MongoContainerConfig extends AuthResourceContainerConfig {
 
     public String getDbName() {
         return dbName;
-    }
-
-    public List<String> getInitScripts() {
-        return initScripts;
     }
 }

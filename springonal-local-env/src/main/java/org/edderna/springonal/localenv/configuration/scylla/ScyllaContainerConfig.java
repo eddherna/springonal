@@ -21,21 +21,19 @@ package org.edderna.springonal.localenv.configuration.scylla;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig;
+import org.edderna.springonal.localenv.configuration.AuthenticableDatabaseContainerConfig;
+import org.edderna.springonal.localenv.configuration.InitializableDatabaseContainerConfig;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 
 import java.util.List;
 
-public class ScyllaContainerConfig extends AuthResourceContainerConfig {
+public class ScyllaContainerConfig extends InitializableDatabaseContainerConfig {
 
     private String keyspace;
-    private List<String> initScripts;
 
     public ScyllaContainerConfig(Toml toml) {
         super(toml);
         keyspace = toml.getString("keyspace", "test");
-        initScripts = toml.getList("init-scripts", List.of());
-
         validateInitScripts();
     }
 
@@ -49,10 +47,6 @@ public class ScyllaContainerConfig extends AuthResourceContainerConfig {
 
     public String getKeyspace() {
         return keyspace;
-    }
-
-    public List<String> getInitScripts() {
-        return initScripts;
     }
 
 }

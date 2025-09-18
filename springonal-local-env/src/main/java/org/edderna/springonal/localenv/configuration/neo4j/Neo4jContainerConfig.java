@@ -21,19 +21,18 @@ package org.edderna.springonal.localenv.configuration.neo4j;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig;
+import org.edderna.springonal.localenv.configuration.AuthenticableDatabaseContainerConfig;
+import org.edderna.springonal.localenv.configuration.InitializableDatabaseContainerConfig;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 
 import java.util.List;
 
-public class Neo4jContainerConfig extends AuthResourceContainerConfig {
+public class Neo4jContainerConfig extends InitializableDatabaseContainerConfig {
 
-    List<String> initScripts;
     boolean console;
 
     public Neo4jContainerConfig(Toml toml) {
         super(toml);
-        initScripts = toml.getList("init-scripts", List.of());
         console = toml.getBoolean("console", false);
         validateInitScripts();
     }
@@ -44,10 +43,6 @@ public class Neo4jContainerConfig extends AuthResourceContainerConfig {
                 throw new MalformedEnviromentException("Init script '" + script + "' must have .cypher extension");
             }
         }
-    }
-
-    public List<String> getInitScripts() {
-        return initScripts;
     }
 
     public boolean hasConsole() {

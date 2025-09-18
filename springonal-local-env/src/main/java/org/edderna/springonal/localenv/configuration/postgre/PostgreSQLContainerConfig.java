@@ -21,19 +21,18 @@ package org.edderna.springonal.localenv.configuration.postgre;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig;
+import org.edderna.springonal.localenv.configuration.AuthenticableDatabaseContainerConfig;
+import org.edderna.springonal.localenv.configuration.InitializableDatabaseContainerConfig;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostgreSQLContainerConfig extends AuthResourceContainerConfig {
-    private List<String> initScripts;
+public class PostgreSQLContainerConfig extends InitializableDatabaseContainerConfig {
     private String dbName;
 
     public PostgreSQLContainerConfig(Toml toml) {
         super(toml);
-        this.initScripts = toml.getList("init-scripts", new ArrayList<>());
         this.dbName = toml.getString("db-name", "test");
 
         validateInitScripts();
@@ -45,10 +44,6 @@ public class PostgreSQLContainerConfig extends AuthResourceContainerConfig {
                 throw new MalformedEnviromentException("Init script '" + script + "' must have .sql extension");
             }
         }
-    }
-
-    public List<String> getInitScripts() {
-        return initScripts;
     }
 
     public String getDbName() {
