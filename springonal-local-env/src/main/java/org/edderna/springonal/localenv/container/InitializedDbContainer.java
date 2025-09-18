@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
-public abstract class InitializedDbContainer<T extends InitializableDatabaseContainerConfig> extends GenericDBContainer<T> {
+public abstract class InitializedDbContainer<T extends InitializableDatabaseContainerConfig> extends GenericDbContainer<T> {
 
     public InitializedDbContainer(String imageName, T config) {
         super(imageName, config);

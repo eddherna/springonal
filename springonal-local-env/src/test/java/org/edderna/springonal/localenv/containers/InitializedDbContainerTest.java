@@ -2,7 +2,7 @@ package org.edderna.springonal.localenv.containers;
 
 import org.edderna.springonal.localenv.configuration.AbstractContainerConfig;
 import org.edderna.springonal.localenv.configuration.InitializableDatabaseContainerConfig;
-import org.edderna.springonal.localenv.container.GenericDBContainer;
+import org.edderna.springonal.localenv.container.GenericDbContainer;
 import org.edderna.springonal.localenv.container.InitializedDbContainer;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +31,7 @@ public class InitializedDbContainerTest {
         when(config.getInitScripts()).thenReturn(scripts);
 
 
-        GenericDBContainer container = new InitializedDbContainer("hello-world", config) {
+        GenericDbContainer container = new InitializedDbContainer("hello-world", config) {
             @Override
             protected void exposePorts() {
             }
@@ -65,7 +65,7 @@ public class InitializedDbContainerTest {
         when(config.getInitScripts()).thenReturn(null);
 
 
-        GenericDBContainer container = new InitializedDbContainer("hello-world", config) {
+        GenericDbContainer container = new InitializedDbContainer("hello-world", config) {
             @Override
             protected void exposePorts() {
             }
@@ -98,7 +98,7 @@ public class InitializedDbContainerTest {
         when(config.getVersion()).thenReturn("latest");
         when(config.getInitScripts()).thenReturn(scripts);
 
-        GenericDBContainer container = new InitializedDbContainer("hello-world", config) {
+        GenericDbContainer container = new InitializedDbContainer("hello-world", config) {
             @Override
             protected void customizeAfterStart(AbstractContainerConfig config) throws IOException, InterruptedException {
             }
@@ -125,7 +125,7 @@ public class InitializedDbContainerTest {
         when(config.getVersion()).thenReturn("latest");
         when(config.getInitScripts()).thenReturn(scripts);
 
-        GenericDBContainer container = new InitializedDbContainer("hello-world", config) {
+        GenericDbContainer container = new InitializedDbContainer("hello-world", config) {
             @Override
             protected void customizeAfterStart(AbstractContainerConfig config) throws IOException, InterruptedException {
             }
@@ -158,7 +158,7 @@ public class InitializedDbContainerTest {
         when(config.getVersion()).thenReturn("latest");
         when(config.getInitScripts()).thenReturn(scripts);
 
-        GenericDBContainer container = new InitializedDbContainer("hello-world", config) {
+        GenericDbContainer container = new InitializedDbContainer("hello-world", config) {
             @Override
             protected void customizeAfterStart(AbstractContainerConfig config) throws IOException, InterruptedException {
             }
