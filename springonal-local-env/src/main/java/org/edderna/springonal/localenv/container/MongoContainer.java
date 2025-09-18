@@ -25,7 +25,6 @@ import org.edderna.springonal.localenv.utils.PathUtils;
 import org.testcontainers.utility.MountableFile;
 
 import java.io.IOException;
-import java.util.List;
 
 public class MongoContainer extends GenericDBContainer {
 

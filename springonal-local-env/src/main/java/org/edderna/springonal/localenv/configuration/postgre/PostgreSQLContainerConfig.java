@@ -21,12 +21,8 @@ package org.edderna.springonal.localenv.configuration.postgre;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.AuthenticableDatabaseContainerConfig;
 import org.edderna.springonal.localenv.configuration.InitializableDatabaseContainerConfig;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PostgreSQLContainerConfig extends InitializableDatabaseContainerConfig {
     private String dbName;

@@ -21,11 +21,8 @@ package org.edderna.springonal.localenv.configuration.neo4j;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.AuthenticableDatabaseContainerConfig;
 import org.edderna.springonal.localenv.configuration.InitializableDatabaseContainerConfig;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
-
-import java.util.List;
 
 public class Neo4jContainerConfig extends InitializableDatabaseContainerConfig {
 
