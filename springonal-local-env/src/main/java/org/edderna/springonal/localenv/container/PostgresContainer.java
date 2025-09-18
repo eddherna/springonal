@@ -43,7 +43,7 @@ public class PostgresContainer extends InitializedDbContainer<PostgreSQLContaine
     }
 
     @Override
-    protected void customizeResource(PostgreSQLContainerConfig config) throws IOException, InterruptedException {
+    protected void customizeAfterStart(PostgreSQLContainerConfig config) throws IOException, InterruptedException {
     }
 
     @Override

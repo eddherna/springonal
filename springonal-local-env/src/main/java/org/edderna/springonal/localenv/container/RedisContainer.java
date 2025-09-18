@@ -34,7 +34,7 @@ public class RedisContainer extends GenericDBContainer<RedisContainerConfig> {
     }
 
     @Override
-    protected void customizeResource(RedisContainerConfig config) throws IOException, InterruptedException {
+    protected void customizeAfterStart(RedisContainerConfig config) throws IOException, InterruptedException {
         this.execInContainer("/bin/sh", "-c", "redis-cli ACL SETUSER " + config.getUsername() + " ON '>" + config.getPassword() + "' +@all ~*");
         // Remove annonymous login
         this.execInContainer("/bin/sh", "-c", "redis-cli ACL SETUSER default OFF");

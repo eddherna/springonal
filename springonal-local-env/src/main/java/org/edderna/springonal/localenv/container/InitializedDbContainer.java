@@ -17,7 +17,7 @@ public abstract class InitializedDbContainer<T extends InitializableDatabaseCont
         super.start();
 
         try {
-            customizeResource(config);
+            customizeAfterStart(config);
             if (!Objects.isNull(config.getInitScripts())) {
                 config.getInitScripts().sort(String::compareTo);
                 for (String scriptPath : config.getInitScripts()) {
@@ -29,6 +29,9 @@ public abstract class InitializedDbContainer<T extends InitializableDatabaseCont
         }
     }
 
+    protected void runScriptContent(String scriptContent) throws IOException, InterruptedException {
+        // You must implement this method in the subclass if you declare a list of initialization scripts
+    }
 
     private void runScript(String scriptPath) throws IOException, InterruptedException {
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(scriptPath)) {

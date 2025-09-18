@@ -35,12 +35,13 @@ public class ScyllaContainer extends InitializedDbContainer<ScyllaContainerConfi
     private static final String CREATE_USER = "CREATE ROLE IF NOT EXISTS %s WITH PASSWORD = '%s' AND LOGIN = true;";
     private static final String GRANT_PERMISSIONS = "GRANT ALL PERMISSIONS ON KEYSPACE %s TO %s;";
 
-    private String keyspace;
-
 
     public ScyllaContainer(ScyllaContainerConfig config) {
         super("scylladb/scylla", config);
-        this.keyspace = config.getKeyspace();
+        optimizeStartupTime();
+    }
+
+    private void optimizeStartupTime() {
         withCreateContainerCmdModifier(it -> {
             it.withCmd("--authenticator", "PasswordAuthenticator", "--authorizer", "CassandraAuthorizer",
                     "--disable-version-check", "--skip-wait-for-gossip-to-settle", "0");
@@ -59,12 +60,11 @@ public class ScyllaContainer extends InitializedDbContainer<ScyllaContainerConfi
                     "--api-address", "0.0.0.0",
                     "--developer-mode", "1");
         });
-
-
     }
 
+
     @Override
-    protected void customizeResource(ScyllaContainerConfig config) throws IOException, InterruptedException {
+    protected void customizeAfterStart(ScyllaContainerConfig config) throws IOException, InterruptedException {
         this.execInContainer("cqlsh", "-u", "cassandra", "-p", "cassandra", "-e", String.format(CREATE_KEYSPACE, config.getKeyspace()));
         this.execInContainer("cqlsh", "-u", "cassandra", "-p", "cassandra", "-e", String.format(CREATE_USER, config.getUsername(), config.getPassword()));
         this.execInContainer("cqlsh", "-u", "cassandra", "-p", "cassandra", "-e", String.format(GRANT_PERMISSIONS, config.getKeyspace(), config.getUsername()));

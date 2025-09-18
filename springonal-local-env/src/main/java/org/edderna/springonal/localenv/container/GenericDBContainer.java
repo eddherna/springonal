@@ -41,17 +41,13 @@ public abstract class GenericDBContainer<T extends AbstractContainerConfig> exte
     public void start() {
         super.start();
         try {
-            customizeResource(config);
+            customizeAfterStart(config);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    protected abstract void customizeResource(T config) throws IOException, InterruptedException;
-
-    protected void runScriptContent(String scriptContent) throws IOException, InterruptedException {
-        // You must implement this method in the subclass if you declare a list of initialization scripts
-    }
+    protected abstract void customizeAfterStart(T config) throws IOException, InterruptedException;
 
     protected abstract void exposePorts();
 }

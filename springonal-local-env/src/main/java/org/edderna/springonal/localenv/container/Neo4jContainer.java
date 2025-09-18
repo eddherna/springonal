@@ -31,22 +31,23 @@ public class Neo4jContainer extends InitializedDbContainer<Neo4jContainerConfig>
     private String neoUser = "neo4j";
     private String neoUserPassowrd = UUID.randomUUID().toString();
 
+    private static final String ECHO_QUERY = "echo \"CREATE USER %s SET PASSWORD '%s' CHANGE NOT REQUIRED;\"";
+    private static final String PIPE = "|";
+    private static final String CYPHER_SHELL_LOGIN = "cypher-shell -u %s -p %s";
+
     public Neo4jContainer(Neo4jContainerConfig config) {
         super("neo4j", config);
         addEnv("NEO4J_AUTH", neoUser + "/" + neoUserPassowrd);
-        this.username = config.getUsername();
-        this.password = config.getPassword();
         if (config.hasConsole()) {
             addExposedPort(7474);
         }
-
     }
 
     @Override
-    protected void customizeResource(Neo4jContainerConfig config) throws IOException, InterruptedException {
-        execInContainer("/bin/sh", "-c",
-                "echo \"CREATE USER " + config.getUsername() + " SET PASSWORD '" + config.getPassword() +
-                        "' CHANGE NOT REQUIRED;\" | cypher-shell -u " + neoUser + " -p " + neoUserPassowrd);
+    protected void customizeAfterStart(Neo4jContainerConfig config) throws IOException, InterruptedException {
+        String command = String.join(" ", String.format(ECHO_QUERY, config.getUsername(), config.getPassword()),
+                PIPE, String.format(CYPHER_SHELL_LOGIN, neoUser, neoUserPassowrd));
+        execInContainer("/bin/sh", "-c", command);
     }
 
     @Override

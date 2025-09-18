@@ -38,13 +38,10 @@ public class MongoContainer extends InitializedDbContainer<MongoContainerConfig>
                     }]
                 })
             """;
-    private String dbName;
 
     public MongoContainer(MongoContainerConfig config) {
         super("mongo", config);
         withEnv("MONGO_INITDB_DATABASE", config.getDbName());
-
-        dbName = config.getDbName();
         for (String script : config.getInitScripts()) {
             withCopyFileToContainer(MountableFile.forClasspathResource(script),
                     "/docker-entrypoint-initdb.d/" + PathUtils.getFilename(script));
@@ -52,8 +49,9 @@ public class MongoContainer extends InitializedDbContainer<MongoContainerConfig>
     }
 
     @Override
-    protected void customizeResource(MongoContainerConfig config) throws IOException, InterruptedException {
-        execInContainer("mongosh", "--eval", "\"" + String.format(CREATE_USER_QUERY, dbName, username, password, dbName) + "\"");
+    protected void customizeAfterStart(MongoContainerConfig config) throws IOException, InterruptedException {
+        execInContainer("mongosh", "--eval", "\"" + String.format(CREATE_USER_QUERY, config.getDbName(),
+                config.getUsername(), config.getPassword(), config.getDbName()) + "\"");
     }
 
     @Override
