@@ -26,7 +26,7 @@ import org.edderna.springonal.localenv.configuration.scylla.ScyllaContainerConfi
 
 import java.io.IOException;
 
-public class ScyllaContainer extends GenericDBContainer {
+public class ScyllaContainer extends InitializedDbContainer<ScyllaContainerConfig> {
 
 
     private static final String CREATE_KEYSPACE = "CREATE KEYSPACE IF NOT EXISTS %s " +
@@ -39,7 +39,7 @@ public class ScyllaContainer extends GenericDBContainer {
 
 
     public ScyllaContainer(ScyllaContainerConfig config) {
-        super("scylladb/scylla", config.getVersion(), config.getInitScripts(), config.getUsername(), config.getPassword());
+        super("scylladb/scylla", config);
         this.keyspace = config.getKeyspace();
         withCreateContainerCmdModifier(it -> {
             it.withCmd("--authenticator", "PasswordAuthenticator", "--authorizer", "CassandraAuthorizer",
@@ -64,10 +64,10 @@ public class ScyllaContainer extends GenericDBContainer {
     }
 
     @Override
-    protected void customizeResource() throws IOException, InterruptedException {
-        this.execInContainer("cqlsh", "-u", "cassandra", "-p", "cassandra", "-e", String.format(CREATE_KEYSPACE, keyspace));
-        this.execInContainer("cqlsh", "-u", "cassandra", "-p", "cassandra", "-e", String.format(CREATE_USER, username, password));
-        this.execInContainer("cqlsh", "-u", "cassandra", "-p", "cassandra", "-e", String.format(GRANT_PERMISSIONS, keyspace, username));
+    protected void customizeResource(ScyllaContainerConfig config) throws IOException, InterruptedException {
+        this.execInContainer("cqlsh", "-u", "cassandra", "-p", "cassandra", "-e", String.format(CREATE_KEYSPACE, config.getKeyspace()));
+        this.execInContainer("cqlsh", "-u", "cassandra", "-p", "cassandra", "-e", String.format(CREATE_USER, config.getUsername(), config.getPassword()));
+        this.execInContainer("cqlsh", "-u", "cassandra", "-p", "cassandra", "-e", String.format(GRANT_PERMISSIONS, config.getKeyspace(), config.getUsername()));
     }
 
     @Override
@@ -77,6 +77,6 @@ public class ScyllaContainer extends GenericDBContainer {
 
     @Override
     protected void runScriptContent(String scriptContent) throws IOException, InterruptedException {
-        this.execInContainer("cqlsh", "-u", username, "-p", password, "-e", scriptContent);
+        this.execInContainer("cqlsh", "-u", config.getUsername(), "-p", config.getPassword(), "-e", scriptContent);
     }
 }

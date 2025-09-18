@@ -27,10 +27,9 @@ import org.testcontainers.utility.MountableFile;
 import java.io.IOException;
 import java.util.List;
 
-public class PostgresContainer extends GenericDBContainer {
+public class PostgresContainer extends InitializedDbContainer<PostgreSQLContainerConfig> {
     public PostgresContainer(PostgreSQLContainerConfig config) {
-        super("postgres", config.getVersion(), config.getInitScripts(),
-                config.getUsername(), config.getPassword());
+        super("postgres", config);
 
         withEnv("POSTGRES_USER", config.getUsername());
         withEnv("POSTGRES_PASSWORD", config.getPassword());
@@ -44,7 +43,7 @@ public class PostgresContainer extends GenericDBContainer {
     }
 
     @Override
-    protected void customizeResource() throws IOException, InterruptedException {
+    protected void customizeResource(PostgreSQLContainerConfig config) throws IOException, InterruptedException {
     }
 
     @Override

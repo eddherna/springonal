@@ -25,22 +25,17 @@ import org.edderna.springonal.localenv.configuration.redis.RedisContainerConfig;
 
 import java.io.IOException;
 
-public class RedisContainer extends GenericDBContainer {
-
-    private String username;
-    private String password;
+public class RedisContainer extends GenericDBContainer<RedisContainerConfig> {
 
 
     public RedisContainer(RedisContainerConfig config) {
-        super("redis", config.getVersion(), null, config.getUsername(), config.getPassword());
-        username = config.getUsername();
-        password = config.getPassword();
+        super("redis", config);
         this.withExposedPorts(6379);
     }
 
     @Override
-    protected void customizeResource() throws IOException, InterruptedException {
-        this.execInContainer("/bin/sh", "-c", "redis-cli ACL SETUSER " + username + " ON '>" + password + "' +@all ~*");
+    protected void customizeResource(RedisContainerConfig config) throws IOException, InterruptedException {
+        this.execInContainer("/bin/sh", "-c", "redis-cli ACL SETUSER " + config.getUsername() + " ON '>" + config.getPassword() + "' +@all ~*");
         // Remove annonymous login
         this.execInContainer("/bin/sh", "-c", "redis-cli ACL SETUSER default OFF");
     }

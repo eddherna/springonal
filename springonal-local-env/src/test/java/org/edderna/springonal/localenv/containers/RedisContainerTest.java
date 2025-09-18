@@ -46,8 +46,8 @@ public class RedisContainerTest {
         container.start();
 
         DefaultJedisClientConfig jedisConf = DefaultJedisClientConfig.builder()
-                .user(container.getUsername())
-                .password(container.getPassword())
+                .user("redis-test")
+                .password("pass-test")
                 .build();
 
         String connectionString = "redis://localhost:" + container.getMappedPort(6379);
