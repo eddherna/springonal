@@ -20,17 +20,15 @@ package org.edderna.springonal.localenv.container;
  * #L%
  */
 
-import org.edderna.springonal.localenv.configuration.postgre.PostgreSQLContainerConfig;
+import org.edderna.springonal.localenv.configuration.postgre.PostgreSQLContainerConfigDb;
 import org.edderna.springonal.localenv.utils.PathUtils;
 import org.testcontainers.utility.MountableFile;
 
 import java.io.IOException;
-import java.util.List;
 
-public class PostgresContainer extends GenericDBContainer {
-    public PostgresContainer(PostgreSQLContainerConfig config) {
-        super("postgres", config.getVersion(), config.getInitScripts(),
-                config.getUsername(), config.getPassword());
+public class PostgresContainer extends GenericDbInitializedContainer<PostgreSQLContainerConfigDb> {
+    public PostgresContainer(PostgreSQLContainerConfigDb config) {
+        super("postgres", config);
 
         withEnv("POSTGRES_USER", config.getUsername());
         withEnv("POSTGRES_PASSWORD", config.getPassword());

@@ -9,9 +9,9 @@ package org.edderna.springonal.localenv.container;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,27 +20,32 @@ package org.edderna.springonal.localenv.container;
  * #L%
  */
 
-import org.edderna.springonal.localenv.configuration.redis.RedisContainerConfigDb;
-
+import org.edderna.springonal.localenv.configuration.AbstractContainerConfig;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.utility.DockerImageName;
 
 import java.io.IOException;
 
-public class RedisContainer extends GenericDBContainer<RedisContainerConfigDb> {
+public abstract class GenericSpringonalContainer<T extends AbstractContainerConfig> extends GenericContainer<GenericSpringonalContainer<T>> {
 
-    public RedisContainer(RedisContainerConfigDb config) {
-        super("redis", config);
-        this.withExposedPorts(6379);
+    public GenericSpringonalContainer(String imageName, String version, T config) {
+        super(imageName + ":" + version);
+        customizeImage(config);
     }
 
-    @Override
+    protected void customizeImage(T config) {
+    }
+
     protected void customizeResource() throws IOException, InterruptedException {
-        this.execInContainer("/bin/sh", "-c", "redis-cli ACL SETUSER " + config.getUsername() + " ON '>" + config.getPassword() + "' +@all ~*");
-        // Remove annonymous login
-        this.execInContainer("/bin/sh", "-c", "redis-cli ACL SETUSER default OFF");
     }
 
     @Override
-    protected void exposePorts() {
-        this.withExposedPorts(6379);
+    public void start() {
+        super.start();
+        try {
+            customizeResource();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

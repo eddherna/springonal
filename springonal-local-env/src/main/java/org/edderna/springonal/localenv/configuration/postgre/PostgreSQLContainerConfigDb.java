@@ -1,4 +1,4 @@
-package org.edderna.springonal.localenv.configuration.neo4j;
+package org.edderna.springonal.localenv.configuration.postgre;
 
 /*-
  * #%L
@@ -21,36 +21,32 @@ package org.edderna.springonal.localenv.configuration.neo4j;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig;
+import org.edderna.springonal.localenv.configuration.DbAuthContainerConfig;
+import org.edderna.springonal.localenv.configuration.InitializedDbContainerConfig;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Neo4jContainerConfig extends AuthResourceContainerConfig {
+public class PostgreSQLContainerConfigDb extends InitializedDbContainerConfig {
+    private String dbName;
 
-    List<String> initScripts;
-    boolean console;
-
-    public Neo4jContainerConfig(Toml toml) {
+    public PostgreSQLContainerConfigDb(Toml toml) {
         super(toml);
-        initScripts = toml.getList("init-scripts", List.of());
-        console = toml.getBoolean("console", false);
+        this.dbName = toml.getString("db-name", "test");
+
         validateInitScripts();
     }
 
     private void validateInitScripts() {
         for (String script : initScripts) {
-            if (!script.endsWith(".cypher")) {
-                throw new MalformedEnviromentException("Init script '" + script + "' must have .cypher extension");
+            if (!script.endsWith(".sql")) {
+                throw new MalformedEnviromentException("Init script '" + script + "' must have .sql extension");
             }
         }
     }
 
-    public List<String> getInitScripts() {
-        return initScripts;
-    }
-
-    public boolean hasConsole() {
-        return console;
+    public String getDbName() {
+        return dbName;
     }
 }

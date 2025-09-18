@@ -21,7 +21,7 @@ package org.edderna.springonal.localenv.configuration;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.neo4j.Neo4jContainerConfig;
+import org.edderna.springonal.localenv.configuration.neo4j.Neo4JContainerConfigDb;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +42,7 @@ public class Neo4jContainerConfigTest {
                         console=true
                 """);
 
-        Neo4jContainerConfig config = new Neo4jContainerConfig(toml);
+        Neo4JContainerConfigDb config = new Neo4JContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "5.0.0")
@@ -58,7 +58,7 @@ public class Neo4jContainerConfigTest {
                         version="5.0.0"
                 """);
 
-        Neo4jContainerConfig config = new Neo4jContainerConfig(toml);
+        Neo4JContainerConfigDb config = new Neo4JContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "5.0.0")
@@ -75,7 +75,7 @@ public class Neo4jContainerConfigTest {
                         username="only_user"
                 """);
 
-        Neo4jContainerConfig config = new Neo4jContainerConfig(toml);
+        Neo4JContainerConfigDb config = new Neo4JContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "5.0.0")
@@ -90,7 +90,7 @@ public class Neo4jContainerConfigTest {
                         password="only_password"
                 """);
 
-        Neo4jContainerConfig config = new Neo4jContainerConfig(toml);
+        Neo4JContainerConfigDb config = new Neo4JContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "5.0.0")
@@ -108,7 +108,7 @@ public class Neo4jContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new Neo4jContainerConfig(toml)
+                () -> new Neo4JContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");
@@ -120,7 +120,7 @@ public class Neo4jContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new Neo4jContainerConfig(toml)
+                () -> new Neo4JContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");
@@ -133,7 +133,7 @@ public class Neo4jContainerConfigTest {
                         init-scripts=["nodes.cypher", "relationships.cypher", "constraints.cypher"]
                 """);
 
-        Neo4jContainerConfig config = new Neo4jContainerConfig(toml);
+        Neo4JContainerConfigDb config = new Neo4JContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "5.0.0")
@@ -149,7 +149,7 @@ public class Neo4jContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new Neo4jContainerConfig(toml)
+                () -> new Neo4JContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'setup.sql' must have .cypher extension");
@@ -164,7 +164,7 @@ public class Neo4jContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new Neo4jContainerConfig(toml)
+                () -> new Neo4JContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'setup' must have .cypher extension");
@@ -179,7 +179,7 @@ public class Neo4jContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new Neo4jContainerConfig(toml)
+                () -> new Neo4JContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'init.cql' must have .cypher extension");
@@ -194,7 +194,7 @@ public class Neo4jContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new Neo4jContainerConfig(toml)
+                () -> new Neo4JContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'graph.js' must have .cypher extension");

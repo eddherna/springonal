@@ -1,4 +1,4 @@
-package org.edderna.springonal.localenv.configuration.postgre;
+package org.edderna.springonal.localenv.configuration.mongodb;
 
 /*-
  * #%L
@@ -21,34 +21,25 @@ package org.edderna.springonal.localenv.configuration.postgre;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig;
+import org.edderna.springonal.localenv.configuration.InitializedDbContainerConfig;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class PostgreSQLContainerConfig extends AuthResourceContainerConfig {
-    private List<String> initScripts;
-    private String dbName;
+public class MongoContainerConfigDb extends InitializedDbContainerConfig {
+    String dbName;
 
-    public PostgreSQLContainerConfig(Toml toml) {
+    public MongoContainerConfigDb(Toml toml) {
         super(toml);
-        this.initScripts = toml.getList("init-scripts", new ArrayList<>());
         this.dbName = toml.getString("db-name", "test");
-
         validateInitScripts();
     }
 
     private void validateInitScripts() {
         for (String script : initScripts) {
-            if (!script.endsWith(".sql")) {
-                throw new MalformedEnviromentException("Init script '" + script + "' must have .sql extension");
+            if (!script.endsWith(".js")) {
+                throw new MalformedEnviromentException("Init script '" + script + "' must have .js extension");
             }
         }
-    }
-
-    public List<String> getInitScripts() {
-        return initScripts;
     }
 
     public String getDbName() {

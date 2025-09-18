@@ -24,7 +24,7 @@ package org.edderna.springonal.localenv.containers;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.scylla.ScyllaContainerConfig;
+import org.edderna.springonal.localenv.configuration.scylla.ScyllaContainerConfigDb;
 import org.edderna.springonal.localenv.container.ScyllaContainer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -51,7 +51,7 @@ public class ScyllaContainerTest {
                 init-scripts=["scylla-scripts/001-init.cql", "scylla-scripts/002-init.cql"]
                 keyspace="test_keyspace"
                 """;
-        ScyllaContainerConfig config = new ScyllaContainerConfig(new Toml().read(String.format(toml, version)));
+        ScyllaContainerConfigDb config = new ScyllaContainerConfigDb(new Toml().read(String.format(toml, version)));
 
         ScyllaContainer container = new ScyllaContainer(config);
 
@@ -88,7 +88,7 @@ public class ScyllaContainerTest {
                 keyspace="test_keyspace"
                 """;
 
-        ScyllaContainerConfig config = new ScyllaContainerConfig(new Toml().read(toml));
+        ScyllaContainerConfigDb config = new ScyllaContainerConfigDb(new Toml().read(toml));
 
         ScyllaContainer container = new ScyllaContainer(config);
 

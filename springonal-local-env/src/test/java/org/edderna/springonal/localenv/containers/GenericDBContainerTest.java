@@ -20,7 +20,9 @@ package org.edderna.springonal.localenv.containers;
  * #L%
  */
 
+import org.edderna.springonal.localenv.configuration.InitializedDbContainerConfig;
 import org.edderna.springonal.localenv.container.GenericDBContainer;
+import org.edderna.springonal.localenv.container.GenericDbInitializedContainer;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -36,7 +38,10 @@ public class GenericDBContainerTest {
 
     @Test
     void shouldThrowExceptionWhenCustomizeThrowIOException() throws IOException, InterruptedException {
-        GenericDBContainer container = new GenericDBContainer("hello-world", "latest", new ArrayList<>(), null, null) {
+        InitializedDbContainerConfig config = mock(InitializedDbContainerConfig.class);
+        when(config.getVersion()).thenReturn("latest");
+
+        GenericDBContainer container = new GenericDbInitializedContainer("hello-world", config) {
             @Override
             protected void customizeResource() throws IOException, InterruptedException {
                 throw new IOException();
@@ -61,7 +66,10 @@ public class GenericDBContainerTest {
 
     @Test
     void shouldThrowExceptionWhenExecInContainerThrowInterruptedException() throws IOException, InterruptedException {
-        GenericDBContainer container = new GenericDBContainer("hello-world", "latest", new ArrayList<>(), null, null) {
+        InitializedDbContainerConfig config = mock(InitializedDbContainerConfig.class);
+        when(config.getVersion()).thenReturn("latest");
+
+        GenericDBContainer container = new GenericDbInitializedContainer("hello-world", config) {
             @Override
             protected void customizeResource() throws IOException, InterruptedException {
                 throw new InterruptedException();
@@ -88,6 +96,8 @@ public class GenericDBContainerTest {
     @Test
     void shouldCallRunScriptForEveryScript() {
 
+
+
         AtomicInteger times = new AtomicInteger();
 
         ArrayList<String> scripts = new ArrayList<>();
@@ -95,7 +105,11 @@ public class GenericDBContainerTest {
         scripts.add("neo4j-scripts/001-init.cypher");
         scripts.add("neo4j-scripts/002-init.cypher");
 
-        GenericDBContainer container = new GenericDBContainer("hello-world", "latest", scripts, null, null) {
+        InitializedDbContainerConfig config = mock(InitializedDbContainerConfig.class);
+        when(config.getInitScripts()).thenReturn(scripts);
+        when(config.getVersion()).thenReturn("latest");
+
+        GenericDBContainer container = new GenericDbInitializedContainer("hello-world", config) {
             @Override
             protected void customizeResource() throws IOException, InterruptedException {
             }
@@ -123,7 +137,11 @@ public class GenericDBContainerTest {
         scripts.add("neo4j-scripts/001-init.cypher");
         scripts.add("neo4j-scripts/002-init.cypher");
 
-        GenericDBContainer container = new GenericDBContainer("hello-world", "latest", scripts, null, null) {
+        InitializedDbContainerConfig config = mock(InitializedDbContainerConfig.class);
+        when(config.getInitScripts()).thenReturn(scripts);
+        when(config.getVersion()).thenReturn("latest");
+
+        GenericDBContainer container = new GenericDbInitializedContainer("hello-world", config) {
             @Override
             protected void customizeResource() throws IOException, InterruptedException {
             }
@@ -145,8 +163,11 @@ public class GenericDBContainerTest {
 
         scripts.add("neo4j-scripts/001-init.cypher");
         scripts.add("neo4j-scripts/002-init.cypher");
+        InitializedDbContainerConfig config = mock(InitializedDbContainerConfig.class);
+        when(config.getInitScripts()).thenReturn(scripts);
+        when(config.getVersion()).thenReturn("latest");
 
-        GenericDBContainer container = new GenericDBContainer("hello-world", "latest", scripts, null, null) {
+        GenericDBContainer container = new GenericDbInitializedContainer("hello-world", config) {
             @Override
             protected void customizeResource() throws IOException, InterruptedException {
             }
@@ -174,8 +195,11 @@ public class GenericDBContainerTest {
 
         scripts.add("neo4j-scripts/001-init.cypher");
         scripts.add("neo4j-scripts/002-init.cypher");
+        InitializedDbContainerConfig config = mock(InitializedDbContainerConfig.class);
+        when(config.getInitScripts()).thenReturn(scripts);
+        when(config.getVersion()).thenReturn("latest");
 
-        GenericDBContainer container = new GenericDBContainer("hello-world", "latest", scripts, null, null) {
+        GenericDBContainer container = new GenericDbInitializedContainer("hello-world", config) {
             @Override
             protected void customizeResource() throws IOException, InterruptedException {
             }

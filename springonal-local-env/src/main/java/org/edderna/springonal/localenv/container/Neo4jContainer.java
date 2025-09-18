@@ -21,18 +21,18 @@ package org.edderna.springonal.localenv.container;
  */
 
 
-import org.edderna.springonal.localenv.configuration.neo4j.Neo4jContainerConfig;
+import org.edderna.springonal.localenv.configuration.neo4j.Neo4JContainerConfigDb;
 
 import java.io.IOException;
 import java.util.UUID;
 
-public class Neo4jContainer extends GenericDBContainer {
+public class Neo4jContainer extends GenericDbInitializedContainer<Neo4JContainerConfigDb> {
 
     private String neoUser = "neo4j";
     private String neoUserPassowrd = UUID.randomUUID().toString();
 
-    public Neo4jContainer(Neo4jContainerConfig config) {
-        super("neo4j", config.getVersion(), config.getInitScripts(), config.getUsername(), config.getPassword());
+    public Neo4jContainer(Neo4JContainerConfigDb config) {
+        super("neo4j", config);
         addEnv("NEO4J_AUTH", neoUser + "/" + neoUserPassowrd);
         this.username = config.getUsername();
         this.password = config.getPassword();

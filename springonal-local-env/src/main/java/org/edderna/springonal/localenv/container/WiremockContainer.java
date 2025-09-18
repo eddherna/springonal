@@ -1,4 +1,4 @@
-package org.edderna.springonal.localenv.configuration;
+package org.edderna.springonal.localenv.container;
 
 /*-
  * #%L
@@ -9,9 +9,9 @@ package org.edderna.springonal.localenv.configuration;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,20 +20,20 @@ package org.edderna.springonal.localenv.configuration;
  * #L%
  */
 
+import org.edderna.springonal.localenv.configuration.wiremock.WiremockContainerConfig;
 
-import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfig;
+import java.io.IOException;
 
 
-public class LocalEnvironment {
+public class WiremockContainer extends GenericSpringonalContainer<WiremockContainerConfig> {
 
-    private MongoContainerConfig mongoContainerConfig;
-
-    public LocalEnvironment(Toml toml) {
-        this.mongoContainerConfig = new MongoContainerConfig(toml.getTable("mongo"));
+    public WiremockContainer(WiremockContainerConfig config) {
+        super("wiremock", config.getVersion(), config);
     }
 
-    public MongoContainerConfig getMongoContainerConfig() {
-        return mongoContainerConfig;
+
+    @Override
+    protected void customizeResource() throws IOException, InterruptedException {
+
     }
 }

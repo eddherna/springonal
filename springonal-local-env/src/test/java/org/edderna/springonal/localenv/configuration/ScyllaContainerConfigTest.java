@@ -21,7 +21,7 @@ package org.edderna.springonal.localenv.configuration;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.scylla.ScyllaContainerConfig;
+import org.edderna.springonal.localenv.configuration.scylla.ScyllaContainerConfigDb;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +41,7 @@ public class ScyllaContainerConfigTest {
                         password="test_password"
                         init-scripts=["script1.cql", "script2.cql"]
                 """);
-        ScyllaContainerConfig config = new ScyllaContainerConfig(toml);
+        ScyllaContainerConfigDb config = new ScyllaContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -57,7 +57,7 @@ public class ScyllaContainerConfigTest {
         Toml toml = new Toml().read("""
                         version="1.2.3"
                 """);
-        ScyllaContainerConfig config = new ScyllaContainerConfig(toml);
+        ScyllaContainerConfigDb config = new ScyllaContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -74,7 +74,7 @@ public class ScyllaContainerConfigTest {
                         username="only_user"
                 """);
 
-        ScyllaContainerConfig config = new ScyllaContainerConfig(toml);
+        ScyllaContainerConfigDb config = new ScyllaContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -89,7 +89,7 @@ public class ScyllaContainerConfigTest {
                         password="only_password"
                 """);
 
-        ScyllaContainerConfig config = new ScyllaContainerConfig(toml);
+        ScyllaContainerConfigDb config = new ScyllaContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -103,7 +103,7 @@ public class ScyllaContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new ScyllaContainerConfig(toml)
+                () -> new ScyllaContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");
@@ -116,7 +116,7 @@ public class ScyllaContainerConfigTest {
                         init-scripts=["init.cql", "schema.cql", "data.cql"]
                 """);
 
-        ScyllaContainerConfig config = new ScyllaContainerConfig(toml);
+        ScyllaContainerConfigDb config = new ScyllaContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -132,7 +132,7 @@ public class ScyllaContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new ScyllaContainerConfig(toml)
+                () -> new ScyllaContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'setup.sql' must have .cql extension");
@@ -147,7 +147,7 @@ public class ScyllaContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new ScyllaContainerConfig(toml)
+                () -> new ScyllaContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'setup' must have .cql extension");
@@ -162,7 +162,7 @@ public class ScyllaContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new ScyllaContainerConfig(toml)
+                () -> new ScyllaContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'init.js' must have .cql extension");

@@ -1,4 +1,4 @@
-package org.edderna.springonal.localenv.configuration.redis;
+package org.edderna.springonal.localenv.configuration;
 
 /*-
  * #%L
@@ -21,10 +21,20 @@ package org.edderna.springonal.localenv.configuration.redis;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig;
 
-public class RedisContainerConfig extends AuthResourceContainerConfig {
-    public RedisContainerConfig(Toml toml) {
+import java.util.ArrayList;
+import java.util.List;
+
+public class InitializedDbContainerConfig extends DbAuthContainerConfig {
+
+    protected List<String> initScripts;
+
+    public InitializedDbContainerConfig(Toml toml) {
         super(toml);
+        this.initScripts = toml.getList("init-scripts", new ArrayList<>());
+    }
+
+    public List<String> getInitScripts() {
+        return initScripts;
     }
 }

@@ -22,7 +22,7 @@ package org.edderna.springonal.localenv.containers;
 
 import com.moandjiezana.toml.Toml;
 import org.edderna.springonal.localenv.container.Neo4jContainer;
-import org.edderna.springonal.localenv.configuration.neo4j.Neo4jContainerConfig;
+import org.edderna.springonal.localenv.configuration.neo4j.Neo4JContainerConfigDb;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -46,7 +46,7 @@ public class Neo4jContainerTest {
                         console=true
                 """;
 
-        Neo4jContainerConfig config = new Neo4jContainerConfig(new Toml().read(String.format(toml, version)));
+        Neo4JContainerConfigDb config = new Neo4JContainerConfigDb(new Toml().read(String.format(toml, version)));
 
         Neo4jContainer container = new Neo4jContainer(config);
 
@@ -75,7 +75,7 @@ public class Neo4jContainerTest {
                         console=false
                 """;
 
-        Neo4jContainerConfig config = new Neo4jContainerConfig(new Toml().read(toml));
+        Neo4JContainerConfigDb config = new Neo4JContainerConfigDb(new Toml().read(toml));
 
         Neo4jContainer container = new Neo4jContainer(config);
 

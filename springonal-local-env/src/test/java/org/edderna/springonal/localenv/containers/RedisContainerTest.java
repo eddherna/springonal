@@ -21,7 +21,7 @@ package org.edderna.springonal.localenv.containers;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.redis.RedisContainerConfig;
+import org.edderna.springonal.localenv.configuration.redis.RedisContainerConfigDb;
 import org.edderna.springonal.localenv.container.RedisContainer;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -40,7 +40,7 @@ public class RedisContainerTest {
                 password= "pass-test"
                 """;
 
-        RedisContainerConfig config = new RedisContainerConfig(new Toml().read(String.format(toml, version)));
+        RedisContainerConfigDb config = new RedisContainerConfigDb(new Toml().read(String.format(toml, version)));
 
         RedisContainer container = new RedisContainer(config);
         container.start();

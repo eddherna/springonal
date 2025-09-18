@@ -28,10 +28,8 @@ import com.mongodb.MongoSecurityException;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfig;
-import org.edderna.springonal.localenv.configuration.postgre.PostgreSQLContainerConfig;
+import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfigDb;
 import org.edderna.springonal.localenv.container.MongoContainer;
-import org.edderna.springonal.localenv.container.PostgresContainer;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -52,7 +50,7 @@ public class MongoContainerTest {
                 init-scripts=["mongo-scripts/001-create.js", "mongo-scripts/002-insert.js"]
                 """;
 
-        var config = new MongoContainerConfig(new Toml().read(String.format(toml, version)));
+        var config = new MongoContainerConfigDb(new Toml().read(String.format(toml, version)));
         var container = new MongoContainer(config);
 
         container.start();

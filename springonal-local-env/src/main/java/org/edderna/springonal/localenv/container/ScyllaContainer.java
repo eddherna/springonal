@@ -22,11 +22,11 @@ package org.edderna.springonal.localenv.container;
 
 import com.github.dockerjava.api.model.Capability;
 import com.github.dockerjava.api.model.Ulimit;
-import org.edderna.springonal.localenv.configuration.scylla.ScyllaContainerConfig;
+import org.edderna.springonal.localenv.configuration.scylla.ScyllaContainerConfigDb;
 
 import java.io.IOException;
 
-public class ScyllaContainer extends GenericDBContainer {
+public class ScyllaContainer extends GenericDbInitializedContainer<ScyllaContainerConfigDb> {
 
 
     private static final String CREATE_KEYSPACE = "CREATE KEYSPACE IF NOT EXISTS %s " +
@@ -38,8 +38,8 @@ public class ScyllaContainer extends GenericDBContainer {
     private String keyspace;
 
 
-    public ScyllaContainer(ScyllaContainerConfig config) {
-        super("scylladb/scylla", config.getVersion(), config.getInitScripts(), config.getUsername(), config.getPassword());
+    public ScyllaContainer(ScyllaContainerConfigDb config) {
+        super("scylladb/scylla", config);
         this.keyspace = config.getKeyspace();
         withCreateContainerCmdModifier(it -> {
             it.withCmd("--authenticator", "PasswordAuthenticator", "--authorizer", "CassandraAuthorizer",

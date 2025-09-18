@@ -21,7 +21,7 @@ package org.edderna.springonal.localenv.configuration;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.redis.RedisContainerConfig;
+import org.edderna.springonal.localenv.configuration.redis.RedisContainerConfigDb;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +38,7 @@ public class RedisContainerConfigTest {
                         password="redis_pass"
                 """);
 
-        RedisContainerConfig config = new RedisContainerConfig(toml);
+        RedisContainerConfigDb config = new RedisContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "8.2.1")
@@ -53,7 +53,7 @@ public class RedisContainerConfigTest {
                         username="redis_user"
                 """);
 
-        RedisContainerConfig config = new RedisContainerConfig(toml);
+        RedisContainerConfigDb config = new RedisContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "8.2.1")
@@ -68,7 +68,7 @@ public class RedisContainerConfigTest {
                         password="redis_pass"
                 """);
 
-        RedisContainerConfig config = new RedisContainerConfig(toml);
+        RedisContainerConfigDb config = new RedisContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "8.2.1")
@@ -82,7 +82,7 @@ public class RedisContainerConfigTest {
                         version="8.2.1"
                 """);
 
-        RedisContainerConfig config = new RedisContainerConfig(toml);
+        RedisContainerConfigDb config = new RedisContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "8.2.1")
@@ -99,7 +99,7 @@ public class RedisContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new RedisContainerConfig(toml)
+                () -> new RedisContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");
@@ -111,7 +111,7 @@ public class RedisContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new RedisContainerConfig(toml)
+                () -> new RedisContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");

@@ -20,14 +20,13 @@ package org.edderna.springonal.localenv.container;
  * #L%
  */
 
-import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfig;
+import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfigDb;
 import org.edderna.springonal.localenv.utils.PathUtils;
 import org.testcontainers.utility.MountableFile;
 
 import java.io.IOException;
-import java.util.List;
 
-public class MongoContainer extends GenericDBContainer {
+public class MongoContainer extends GenericDbInitializedContainer<MongoContainerConfigDb> {
 
     public static final String CREATE_USER_QUERY = """
                 db.getSiblingDB('%s').createUser({
@@ -41,9 +40,8 @@ public class MongoContainer extends GenericDBContainer {
             """;
     private String dbName;
 
-    public MongoContainer(MongoContainerConfig config) {
-        super("mongo", config.getVersion(), config.getInitScripts(),
-                config.getUsername(), config.getPassword());
+    public MongoContainer(MongoContainerConfigDb config) {
+        super("mongo", config);
         withEnv("MONGO_INITDB_DATABASE", config.getDbName());
 
         dbName = config.getDbName();

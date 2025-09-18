@@ -21,20 +21,20 @@ package org.edderna.springonal.localenv.configuration;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.scylla.ScyllaContainerConfig;
+import org.edderna.springonal.localenv.configuration.scylla.ScyllaContainerConfigDb;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AuthResourceContainerConfig extends AbstractContainerConfig {
+public class DbAuthContainerConfig extends AbstractContainerConfig {
 
     public static final String DEFAULT_USER = "test";
     public static final String DEFAULT_PASS = "test";
-    private static Logger logger = LoggerFactory.getLogger(ScyllaContainerConfig.class);
+    private static Logger logger = LoggerFactory.getLogger(ScyllaContainerConfigDb.class);
 
     private final String username;
     private final String password;
 
-    public AuthResourceContainerConfig(Toml toml) {
+    public DbAuthContainerConfig(Toml toml) {
         super(toml);
         if (toml.contains("username") && toml.contains("password")) {
             username = toml.getString("username", DEFAULT_USER);

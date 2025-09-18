@@ -21,7 +21,7 @@ package org.edderna.springonal.localenv.configuration;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.postgre.PostgreSQLContainerConfig;
+import org.edderna.springonal.localenv.configuration.postgre.PostgreSQLContainerConfigDb;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +41,7 @@ public class PostgreSQLContainerConfigTest {
                         password="test_password"
                         init-scripts=["script1.sql", "script2.sql"]
                 """);
-        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
+        PostgreSQLContainerConfigDb config = new PostgreSQLContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -56,7 +56,7 @@ public class PostgreSQLContainerConfigTest {
         Toml toml = new Toml().read("""
                         version="1.2.3"
                 """);
-        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
+        PostgreSQLContainerConfigDb config = new PostgreSQLContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -73,7 +73,7 @@ public class PostgreSQLContainerConfigTest {
                         username="only_user"
                 """);
 
-        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
+        PostgreSQLContainerConfigDb config = new PostgreSQLContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -88,7 +88,7 @@ public class PostgreSQLContainerConfigTest {
                         password="only_password"
                 """);
 
-        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
+        PostgreSQLContainerConfigDb config = new PostgreSQLContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -103,7 +103,7 @@ public class PostgreSQLContainerConfigTest {
                         db-name="only_database"
                 """);
 
-        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
+        PostgreSQLContainerConfigDb config = new PostgreSQLContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -119,7 +119,7 @@ public class PostgreSQLContainerConfigTest {
                         init-scripts=["init.sql"]
                 """);
 
-        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
+        PostgreSQLContainerConfigDb config = new PostgreSQLContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -133,7 +133,7 @@ public class PostgreSQLContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new PostgreSQLContainerConfig(toml)
+                () -> new PostgreSQLContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");
@@ -146,7 +146,7 @@ public class PostgreSQLContainerConfigTest {
                         init-scripts=["init.sql", "schema.sql", "data.sql"]
                 """);
 
-        PostgreSQLContainerConfig config = new PostgreSQLContainerConfig(toml);
+        PostgreSQLContainerConfigDb config = new PostgreSQLContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -162,7 +162,7 @@ public class PostgreSQLContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new PostgreSQLContainerConfig(toml)
+                () -> new PostgreSQLContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'setup.js' must have .sql extension");
@@ -177,7 +177,7 @@ public class PostgreSQLContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new PostgreSQLContainerConfig(toml)
+                () -> new PostgreSQLContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'setup' must have .sql extension");
@@ -192,7 +192,7 @@ public class PostgreSQLContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new PostgreSQLContainerConfig(toml)
+                () -> new PostgreSQLContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'init.txt' must have .sql extension");

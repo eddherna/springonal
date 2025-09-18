@@ -21,7 +21,7 @@ package org.edderna.springonal.localenv.configuration;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfig;
+import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfigDb;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +41,7 @@ public class MongoContainerConfigTest {
                         password="test_password"
                         init-scripts=["script1.js", "script2.js"]
                 """);
-        MongoContainerConfig config = new MongoContainerConfig(toml);
+        MongoContainerConfigDb config = new MongoContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -56,7 +56,7 @@ public class MongoContainerConfigTest {
         Toml toml = new Toml().read("""
                         version="1.2.3"
                 """);
-        MongoContainerConfig config = new MongoContainerConfig(toml);
+        MongoContainerConfigDb config = new MongoContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -73,7 +73,7 @@ public class MongoContainerConfigTest {
                         username="only_user"
                 """);
 
-        MongoContainerConfig config = new MongoContainerConfig(toml);
+        MongoContainerConfigDb config = new MongoContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -88,7 +88,7 @@ public class MongoContainerConfigTest {
                         password="only_password"
                 """);
 
-        MongoContainerConfig config = new MongoContainerConfig(toml);
+        MongoContainerConfigDb config = new MongoContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -103,7 +103,7 @@ public class MongoContainerConfigTest {
                         db-name="only_database"
                 """);
 
-        MongoContainerConfig config = new MongoContainerConfig(toml);
+        MongoContainerConfigDb config = new MongoContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -118,7 +118,7 @@ public class MongoContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new MongoContainerConfig(toml)
+                () -> new MongoContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Version definition cannot be null.");
@@ -131,7 +131,7 @@ public class MongoContainerConfigTest {
                         init-scripts=["init.js", "setup.js", "data.js"]
                 """);
 
-        MongoContainerConfig config = new MongoContainerConfig(toml);
+        MongoContainerConfigDb config = new MongoContainerConfigDb(toml);
 
         assertThat(config)
                 .hasFieldOrPropertyWithValue("version", "1.2.3")
@@ -147,7 +147,7 @@ public class MongoContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new MongoContainerConfig(toml)
+                () -> new MongoContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'setup.sql' must have .js extension");
@@ -162,7 +162,7 @@ public class MongoContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new MongoContainerConfig(toml)
+                () -> new MongoContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'setup' must have .js extension");
@@ -177,7 +177,7 @@ public class MongoContainerConfigTest {
 
         MalformedEnviromentException exception = assertThrows(
                 MalformedEnviromentException.class,
-                () -> new MongoContainerConfig(toml)
+                () -> new MongoContainerConfigDb(toml)
         );
 
         assertThat(exception.getMessage()).isEqualTo("Init script 'init.txt' must have .js extension");

@@ -1,4 +1,4 @@
-package org.edderna.springonal.localenv.configuration.mongodb;
+package org.edderna.springonal.localenv.configuration.scylla;
 
 /*-
  * #%L
@@ -21,36 +21,31 @@ package org.edderna.springonal.localenv.configuration.mongodb;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.AuthResourceContainerConfig;
+import org.edderna.springonal.localenv.configuration.InitializedDbContainerConfig;
 import org.edderna.springonal.localenv.exception.MalformedEnviromentException;
 
-import java.util.List;
 
-public class MongoContainerConfig extends AuthResourceContainerConfig {
-    String dbName;
-    List<String> initScripts;
+public class ScyllaContainerConfigDb extends InitializedDbContainerConfig {
 
-    public MongoContainerConfig(Toml toml) {
+    private String keyspace;
+
+    public ScyllaContainerConfigDb(Toml toml) {
         super(toml);
-        this.dbName = toml.getString("db-name", "test");
-        this.initScripts = toml.getList("init-scripts", List.of());
+        keyspace = toml.getString("keyspace", "test");
 
         validateInitScripts();
     }
 
     private void validateInitScripts() {
         for (String script : initScripts) {
-            if (!script.endsWith(".js")) {
-                throw new MalformedEnviromentException("Init script '" + script + "' must have .js extension");
+            if (!script.endsWith(".cql")) {
+                throw new MalformedEnviromentException("Init script '" + script + "' must have .cql extension");
             }
         }
     }
 
-    public String getDbName() {
-        return dbName;
+    public String getKeyspace() {
+        return keyspace;
     }
 
-    public List<String> getInitScripts() {
-        return initScripts;
-    }
 }

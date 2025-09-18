@@ -21,9 +21,8 @@ package org.edderna.springonal.localenv.containers;
  */
 
 import com.moandjiezana.toml.Toml;
-import org.edderna.springonal.localenv.configuration.postgre.PostgreSQLContainerConfig;
+import org.edderna.springonal.localenv.configuration.postgre.PostgreSQLContainerConfigDb;
 import org.edderna.springonal.localenv.container.PostgresContainer;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -46,7 +45,7 @@ public class PostgresContainerTest {
                 init-scripts=["postgres-scripts/001-create.sql", "postgres-scripts/002-insert.sql"]
                 """;
 
-        var config = new PostgreSQLContainerConfig(new Toml().read(String.format(toml, version)));
+        var config = new PostgreSQLContainerConfigDb(new Toml().read(String.format(toml, version)));
         var container = new PostgresContainer(config);
 
         container.start();
