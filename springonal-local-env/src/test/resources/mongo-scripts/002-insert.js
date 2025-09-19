@@ -18,7 +18,6 @@
  * #L%
  */
 // Switch to the test database
-db = db.getSiblingDB('dbTest');
 
 // Insert test users
 var users = db.users.insertMany([

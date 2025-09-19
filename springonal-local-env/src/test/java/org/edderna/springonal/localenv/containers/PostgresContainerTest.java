@@ -53,7 +53,7 @@ public class PostgresContainerTest {
 
 
         // Get connection details
-        String jdbcUrl = String.format("jdbc:postgresql://localhost:%d/dbTest",
+        String jdbcUrl = String.format("jdbc:postgresql://localhost:%d/dbtest",
                 container.getMappedPort(5432));
         String username = config.getUsername();
         String password = config.getPassword();

@@ -18,7 +18,6 @@
  * #L%
  */
 // Switch to the test database
-db = db.getSiblingDB('dbTest');
 
 // Create users collection with validation schema
 db.createCollection("users", {

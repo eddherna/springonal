@@ -25,7 +25,7 @@ import org.edderna.springonal.localenv.configuration.redis.RedisContainerConfig;
 
 import java.io.IOException;
 
-public class RedisContainer extends GenericDbContainer<RedisContainerConfig> {
+public class RedisContainer extends GenericSpringonalContainer<RedisContainerConfig> {
 
 
     public RedisContainer(RedisContainerConfig config) {

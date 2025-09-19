@@ -21,8 +21,6 @@ package org.edderna.springonal.localenv.container;
  */
 
 import org.edderna.springonal.localenv.configuration.mongodb.MongoContainerConfig;
-import org.edderna.springonal.localenv.utils.PathUtils;
-import org.testcontainers.utility.MountableFile;
 
 import java.io.IOException;
 
@@ -39,13 +37,18 @@ public class MongoContainer extends InitializedDbContainer<MongoContainerConfig>
                 })
             """;
 
+    public static final String FIXED_DB_REFERENCE = "db = db.getSiblingDB('%s');";
+
     public MongoContainer(MongoContainerConfig config) {
         super("mongo", config);
         withEnv("MONGO_INITDB_DATABASE", config.getDbName());
-        for (String script : config.getInitScripts()) {
-            withCopyFileToContainer(MountableFile.forClasspathResource(script),
-                    "/docker-entrypoint-initdb.d/" + PathUtils.getFilename(script));
-        }
+    }
+
+    @Override
+    protected void runScriptContent(String scriptContent) throws IOException, InterruptedException {
+        String newScript = String.format(FIXED_DB_REFERENCE, config.getDbName()) + scriptContent;
+        execInContainer("mongosh", "-u", config.getUsername(), "-p", config.getPassword(), "--authenticationDatabase",
+                config.getDbName(), "--eval", newScript);
     }
 
     @Override

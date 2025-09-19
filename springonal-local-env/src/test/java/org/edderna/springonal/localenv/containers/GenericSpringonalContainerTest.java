@@ -21,7 +21,7 @@ package org.edderna.springonal.localenv.containers;
  */
 
 import org.edderna.springonal.localenv.configuration.AbstractContainerConfig;
-import org.edderna.springonal.localenv.container.GenericDbContainer;
+import org.edderna.springonal.localenv.container.GenericSpringonalContainer;
 import org.junit.jupiter.api.Test;
 
 
@@ -33,7 +33,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 
-public class GenericDbContainerTest {
+public class GenericSpringonalContainerTest {
 
     @Test
     void shouldThrowExceptionWhenCustomizeThrowIOException() throws IOException, InterruptedException {
@@ -42,7 +42,7 @@ public class GenericDbContainerTest {
         when(conf.getVersion()).thenReturn("latest");
 
 
-        GenericDbContainer container = new GenericDbContainer("hello-world", conf) {
+        GenericSpringonalContainer container = new GenericSpringonalContainer("hello-world", conf) {
             @Override
             protected void customizeAfterStart(AbstractContainerConfig conf) throws IOException, InterruptedException {
                 throw new IOException();
@@ -68,7 +68,7 @@ public class GenericDbContainerTest {
     void shouldThrowExceptionWhenExecInContainerThrowInterruptedException() throws IOException, InterruptedException {
         AbstractContainerConfig conf = mock(AbstractContainerConfig.class);
         when(conf.getVersion()).thenReturn("latest");
-        GenericDbContainer container = new GenericDbContainer("hello-world", conf) {
+        GenericSpringonalContainer container = new GenericSpringonalContainer("hello-world", conf) {
             @Override
             protected void customizeAfterStart(AbstractContainerConfig conf) throws IOException, InterruptedException {
                 throw new InterruptedException();

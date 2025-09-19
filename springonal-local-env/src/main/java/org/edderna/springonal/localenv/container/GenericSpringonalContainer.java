@@ -25,13 +25,10 @@ import org.testcontainers.containers.GenericContainer;
 
 import java.io.IOException;
 
-public abstract class GenericDbContainer<T extends AbstractContainerConfig> extends GenericContainer<GenericDbContainer<T>> {
-    protected String username;
-    protected String password;
-
+public abstract class GenericSpringonalContainer<T extends AbstractContainerConfig> extends GenericContainer<GenericSpringonalContainer<T>> {
     protected T config;
 
-    public GenericDbContainer(String imageName, T config) {
+    public GenericSpringonalContainer(String imageName, T config) {
         super(imageName + ":" + config.getVersion());
         this.config = config;
         exposePorts();

@@ -29,7 +29,7 @@ public class PostgreSQLContainerConfig extends InitializableDatabaseContainerCon
 
     public PostgreSQLContainerConfig(Toml toml) {
         super(toml);
-        this.dbName = toml.getString("db-name", "test");
+        this.dbName = toml.getString("db-name", "test").toLowerCase();
 
         validateInitScripts();
     }
