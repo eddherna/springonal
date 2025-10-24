@@ -71,7 +71,7 @@ public class ScyllaContainer extends InitializedDbContainer<ScyllaContainerConfi
     }
 
     @Override
-    protected void exposePorts() {
+    protected void customizeContainerBeforeStart() {
         withExposedPorts(9042);
     }
 

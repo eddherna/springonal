@@ -59,7 +59,7 @@ public class PostgresContainer extends InitializedDbContainer<PostgreSQLContaine
     }
 
     @Override
-    protected void exposePorts() {
+    protected void customizeContainerBeforeStart() {
         withExposedPorts(5432);
     }
 }

@@ -58,7 +58,7 @@ public class Neo4jContainer extends InitializedDbContainer<Neo4jContainerConfig>
     }
 
     @Override
-    protected void exposePorts() {
+    protected void customizeContainerBeforeStart() {
         addExposedPort(7687);
     }
 }

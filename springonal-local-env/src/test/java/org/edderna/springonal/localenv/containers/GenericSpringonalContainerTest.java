@@ -36,6 +36,26 @@ import static org.mockito.Mockito.*;
 public class GenericSpringonalContainerTest {
 
     @Test
+    void shouldExecuteContainer() throws IOException, InterruptedException {
+
+
+
+        AbstractContainerConfig conf = mock(AbstractContainerConfig.class);
+        when(conf.getVersion()).thenReturn("latest");
+
+
+        GenericSpringonalContainer container = new GenericSpringonalContainer("hello-world", conf) {
+            @Override
+            protected void customizeContainerBeforeStart() {
+            }
+        };
+
+        container.start();
+        container.stop();
+    }
+
+
+    @Test
     void shouldThrowExceptionWhenCustomizeThrowIOException() throws IOException, InterruptedException {
 
         AbstractContainerConfig conf = mock(AbstractContainerConfig.class);
@@ -49,7 +69,7 @@ public class GenericSpringonalContainerTest {
             }
 
             @Override
-            protected void exposePorts() {
+            protected void customizeContainerBeforeStart() {
             }
         };
 
@@ -75,7 +95,7 @@ public class GenericSpringonalContainerTest {
             }
 
             @Override
-            protected void exposePorts() {
+            protected void customizeContainerBeforeStart() {
             }
         };
 

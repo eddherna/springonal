@@ -22,8 +22,10 @@ package org.edderna.springonal.localenv.container;
 
 import org.edderna.springonal.localenv.configuration.AbstractContainerConfig;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.utility.DockerImageName;
 
 import java.io.IOException;
+import java.util.concurrent.Future;
 
 public abstract class GenericSpringonalContainer<T extends AbstractContainerConfig> extends GenericContainer<GenericSpringonalContainer<T>> {
     protected T config;
@@ -31,7 +33,19 @@ public abstract class GenericSpringonalContainer<T extends AbstractContainerConf
     public GenericSpringonalContainer(String imageName, T config) {
         super(imageName + ":" + config.getVersion());
         this.config = config;
-        exposePorts();
+        customizeContainerBeforeStart();
+    }
+
+    public GenericSpringonalContainer(Future<String> image, T config) {
+        super(image);
+        this.config = config;
+        customizeContainerBeforeStart();
+    }
+
+    public GenericSpringonalContainer(DockerImageName dockerImageName, T config) {
+        super(dockerImageName);
+        this.config = config;
+        customizeContainerBeforeStart();
     }
 
     @Override
@@ -44,7 +58,8 @@ public abstract class GenericSpringonalContainer<T extends AbstractContainerConf
         }
     }
 
-    protected abstract void customizeAfterStart(T config) throws IOException, InterruptedException;
+    protected void customizeAfterStart(T config) throws IOException, InterruptedException {
+    }
 
-    protected abstract void exposePorts();
+    protected abstract void customizeContainerBeforeStart();
 }

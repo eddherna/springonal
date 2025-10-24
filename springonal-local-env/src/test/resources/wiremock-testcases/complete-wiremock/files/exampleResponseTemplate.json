@@ -1,0 +1,4 @@
+{
+  "field1": "{{request.path.[0]}}",
+  "field2": "value2"
+}

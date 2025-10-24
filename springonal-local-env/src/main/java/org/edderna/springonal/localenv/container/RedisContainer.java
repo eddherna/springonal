@@ -41,7 +41,7 @@ public class RedisContainer extends GenericSpringonalContainer<RedisContainerCon
     }
 
     @Override
-    protected void exposePorts() {
+    protected void customizeContainerBeforeStart() {
         this.withExposedPorts(6379);
     }
 }

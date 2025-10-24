@@ -58,7 +58,7 @@ public class MongoContainer extends InitializedDbContainer<MongoContainerConfig>
     }
 
     @Override
-    protected void exposePorts() {
+    protected void customizeContainerBeforeStart() {
         withExposedPorts(27017);
     }
 }

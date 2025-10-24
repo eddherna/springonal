@@ -33,7 +33,7 @@ public class InitializedDbContainerTest {
 
         GenericSpringonalContainer container = new InitializedDbContainer("hello-world", config) {
             @Override
-            protected void exposePorts() {
+            protected void customizeContainerBeforeStart() {
             }
 
             @Override
@@ -67,7 +67,7 @@ public class InitializedDbContainerTest {
 
         GenericSpringonalContainer container = new InitializedDbContainer("hello-world", config) {
             @Override
-            protected void exposePorts() {
+            protected void customizeContainerBeforeStart() {
             }
 
             @Override
@@ -104,7 +104,7 @@ public class InitializedDbContainerTest {
             }
 
             @Override
-            protected void exposePorts() {
+            protected void customizeContainerBeforeStart() {
             }
         };
 
@@ -131,7 +131,7 @@ public class InitializedDbContainerTest {
             }
 
             @Override
-            protected void exposePorts() {
+            protected void customizeContainerBeforeStart() {
             }
 
             @Override
@@ -164,7 +164,7 @@ public class InitializedDbContainerTest {
             }
 
             @Override
-            protected void exposePorts() {
+            protected void customizeContainerBeforeStart() {
             }
 
             @Override
